@@ -24,7 +24,7 @@
                      <children>
                         <AnchorPane prefHeight="251.0" prefWidth="680.0" style="-fx-border-color: gray;">
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin>
                            <opaqueInsets>
                               <Insets />
@@ -40,16 +40,6 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <Line endX="120.0" layoutX="401.0" layoutY="124.0" rotate="90.0" startX="-100.0" AnchorPane.rightAnchor="158.5">
-                                 <fill>
-                                    <LinearGradient endX="1.0" endY="1.0">
-                                       <stops>
-                                          <Stop color="BLACK" />
-                                          <Stop color="WHITE" offset="1.0" />
-                                       </stops>
-                                    </LinearGradient>
-                                 </fill>
-                              </Line>
                               <Label alignment="CENTER" layoutX="419.0" layoutY="14.0" prefHeight="25.0" prefWidth="255.0" text="Установить новый тариф" AnchorPane.rightAnchor="6.0">
                                  <font>
                                     <Font size="14.0" />
@@ -68,7 +58,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="290.0" prefWidth="680.0" style="-fx-border-color: gray;">
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                            <children>
                               <Label layoutX="14.0" layoutY="14.0" text="Последний платеж и задолженность">
@@ -90,14 +80,14 @@
                               </TableView>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="164.0" prefWidth="681.0" style="-fx-border-color: gray;">
+                        <AnchorPane prefHeight="191.0" prefWidth="681.0" style="-fx-border-color: gray;">
                            <VBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                            <children>
                               <Label layoutX="14.0" layoutY="25.0" prefHeight="27.0" prefWidth="302.0" text="Общая сумма последнего платежа: " AnchorPane.leftAnchor="14.0">
                                  <font>
-                                    <Font size="18.0" />
+                                    <Font name="Book Antiqua" size="18.0" />
                                  </font>
                               </Label>
                               <Label layoutX="316.0" layoutY="25.0" text="DD.MM.YYYY" AnchorPane.leftAnchor="316.0">
@@ -125,7 +115,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnPrint" layoutX="526.0" layoutY="100.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="137.0" text="Печать" AnchorPane.rightAnchor="18.0" />
+                              <Button fx:id="btnPrint" layoutX="527.0" layoutY="118.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="137.0" text="Печать" AnchorPane.rightAnchor="17.0" />
                            </children></AnchorPane>
                      </children>
                   </VBox>
@@ -135,42 +125,147 @@
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane prefHeight="771.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
                           <tabs>
                             <Tab text="Электорэнергия">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="263.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <AnchorPane prefHeight="334.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                             <children>
+                                                <TableView layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="650.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+                                                  <columns>
+                                                    <TableColumn minWidth="50.0" prefWidth="50.0" text="Дата платежа" />
+                                                    <TableColumn minWidth="120.0" prefWidth="120.0" text="Период оплаты" />
+                                                      <TableColumn minWidth="70.0" prefWidth="70.0" text="Показания сч-а" />
+                                                      <TableColumn prefWidth="110.0" text="Кол-во (кВатт)" />
+                                                      <TableColumn prefWidth="110.0" text="Сумма (грн)" />
+                                                      <TableColumn prefWidth="148.0" text="Сумма за месяц" />
+                                                  </columns>
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                </TableView>
+                                                <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">
+                                                   <font>
+                                                      <Font name="Book Antiqua" size="22.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
                             </Tab>
                             <Tab text="Водоснабжение">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="202.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
                             </Tab>
                               <Tab text="Газоснабжение">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="202.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
                               </Tab>
                               <Tab text="Теплоэнергия">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="202.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
                               </Tab>
                               <Tab text="Квартплата">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="202.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
                               </Tab>
                               <Tab text="Лифт">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="202.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
                               </Tab>
                               <Tab text="Вывоз мусора">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                                </content>
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="202.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
                               </Tab>
                           </tabs>
                         </TabPane>
@@ -180,7 +275,21 @@
           </Tab>
             <Tab text="История">
                <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <AnchorPane prefHeight="751.0" prefWidth="659.0" style="-fx-border-color: gray;">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label alignment="CENTER" layoutX="-19.0" layoutY="333.0" opacity="0.35" prefHeight="66.0" prefWidth="677.0" rotate="-45.0" text="Страница находится в разработке" textFill="#174cbf">
+                                 <font>
+                                    <Font size="41.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children></VBox>
                </content>
             </Tab>
         </tabs>

@@ -2,11 +2,7 @@ package ua.serg.controllers;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -47,4 +43,5 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
 }
