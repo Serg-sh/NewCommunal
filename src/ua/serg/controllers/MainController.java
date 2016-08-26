@@ -11,8 +11,9 @@ import java.lang.reflect.Method;
 
 public class MainController {
 
+    // Tab Tarifs
     @FXML
-    private CustomTextField txtNewTarif;
+    private CustomTextField tfNewTarif;  /*изменить на NumberTextFild в Main.fxml тоже*/
     @FXML
     private Button btnChangeTarif;
     @FXML
@@ -26,11 +27,40 @@ public class MainController {
 
 
 
+    //Tab Calc -> tab El
+    @FXML
+    private CustomTextField tfNewMetrReadings; /*изменить на NumberTextFild в Main.fxml тоже*/
+    @FXML
+    private CustomTextField tfOldMetrReadings; /*изменить на NumberTextFild в Main.fxml тоже*/
+    @FXML
+    private DatePicker dpStartPayPeriodEl;
+    @FXML
+    private DatePicker dpEndPayPeriodEl;
+    @FXML
+    private Label labelTarifBefore100El;
+    @FXML
+    private Label labelTarifBefore500El;
+    @FXML
+    private Label labelToUseEl;
+    @FXML
+    private Label labelSumEl;
+    @FXML
+    private TableView tableHistoryEl;
+    @FXML
+    private Button btnUpdateDbEl;
+
+
+    // Tab Calc -> tab Water
+
+
 
 
     @FXML
     private void initialize(){
-        setupClearButtonField(txtNewTarif);
+        setupClearButtonField(tfNewTarif);
+        setupClearButtonField(tfNewMetrReadings);
+        setupClearButtonField(tfOldMetrReadings);
+
 
     }
 //удаление данных в текстовом поле
@@ -43,5 +73,7 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+
 
 }
