@@ -28,6 +28,14 @@ public class MainController {
     private TableView tableTarifs;
     @FXML
     private TableView tableAll;
+    @FXML
+    private Label labelLastDatePay;
+    @FXML
+    private Label labelLastSumPay;
+    @FXML
+    private Label labelLastDateDebts;
+    @FXML
+    private Label labelLastSumDebts;
 
 
     //Tab Calc -> tab El
@@ -144,6 +152,21 @@ public class MainController {
     private Button btnUpdateDbGarbage;
 
 
+    // Tab Calc -> tab Heating
+    @FXML
+    private DatePicker dpStartPayPeriodHeating;
+    @FXML
+    private DatePicker dpEndPayPeriodHeating;
+    @FXML
+    private TableView tablePayPerionSumHeating;
+    @FXML
+    private Label labelSumHeating;
+    @FXML
+    private TableView tableHistoryHeating;
+    @FXML
+    private Button btnUpdateDbHeating;
+
+
 
     private final ObservableList<Integer> countPeople = FXCollections.observableArrayList(1, 2, 3, 4, 5);
     private final ObservableList<String> tarifName = FXCollections.observableArrayList(
@@ -172,6 +195,7 @@ public class MainController {
         setupClearButtonField(tfOldMetrReadingsEl);
         setupClearButtonField(tfOldMetrReadingsWater);
         setupClearButtonField(tfOldMetrReadingsWater);
+
     }
 
     private void setCountPeopleAndTarifName() {
@@ -204,6 +228,8 @@ public class MainController {
         dpEndPayPeriodElevator.setValue(LocalDate.now());
         dpStartPayPeriodGarbage.setValue(setFirstMonthDey());
         dpEndPayPeriodGarbage.setValue(LocalDate.now());
+        dpStartPayPeriodHeating.setValue(setFirstMonthDey());
+        dpEndPayPeriodHeating.setValue(LocalDate.now());
 
     }
 
