@@ -72,32 +72,32 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                            <children>
-                              <Label layoutX="14.0" layoutY="25.0" prefHeight="27.0" prefWidth="302.0" styleClass="styleFontLabel18" text="Общая сумма последнего платежа: " AnchorPane.leftAnchor="14.0">
+                              <Label layoutX="16.0" layoutY="25.0" prefHeight="27.0" prefWidth="217.0" styleClass="styleFontLabel18" text="Общая сумма  платежа: " AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="15.0">
                                  <font>
                                     <Font name="Book Antiqua" size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelLastDatePay" layoutX="316.0" layoutY="25.0" styleClass="styleFontLabel18" text="DD.MM.YYYY" AnchorPane.leftAnchor="316.0">
+                              <Label fx:id="labelLastDatePay" layoutX="233.0" layoutY="25.0" styleClass="styleFontLabel18" text="DD.MM.YYYY" AnchorPane.bottomAnchor="142.0" AnchorPane.leftAnchor="233.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelLastSumPay" layoutX="441.0" layoutY="25.0" styleClass="styleFontLabel18" text="Сумма грн." AnchorPane.leftAnchor="440.0">
+                              <Label fx:id="labelLastSumPay" layoutX="357.0" layoutY="25.0" styleClass="styleFontLabel18" text="Сумма грн." AnchorPane.bottomAnchor="142.0" AnchorPane.leftAnchor="360.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelLastSumDebts" layoutX="435.0" layoutY="61.0" styleClass="styleFontLabel18" text="Сумма грн." AnchorPane.leftAnchor="440.0">
+                              <Label fx:id="labelLastSumDebts" layoutX="434.0" layoutY="61.0" styleClass="styleFontLabel18" text="Сумма грн." AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="435.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="labelLastDateDebts" layoutX="316.0" layoutY="61.0" styleClass="styleFontLabel18" text="DD.MM.YYYY" AnchorPane.leftAnchor="316.0">
+                              <Label fx:id="labelLastDateDebts" layoutX="305.0" layoutY="63.0" styleClass="styleFontLabel18" text="DD.MM.YYYY" AnchorPane.bottomAnchor="102.0" AnchorPane.leftAnchor="305.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Label layoutX="14.0" layoutY="61.0" prefHeight="27.0" prefWidth="302.0" styleClass="styleFontLabel18" text="Общая сумма Задолженности  на " AnchorPane.leftAnchor="14.0">
+                              <Label layoutX="14.0" layoutY="61.0" prefHeight="27.0" prefWidth="302.0" styleClass="styleFontLabel18" text="Общая сумма Задолженности  на " AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="14.0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

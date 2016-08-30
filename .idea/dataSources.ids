@@ -6,6 +6,7 @@
     <schema name="" catalog=""/>
     <table name="Dwelling" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="period" sqlType="NVARCHAR(25)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="sum" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
       <column name="sum_per_month" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
@@ -23,6 +24,7 @@
     </table>
     <table name="Elevator" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="period" sqlType="NVARCHAR(25)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="sum" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
       <column name="sum_per_month" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
@@ -30,6 +32,7 @@
     </table>
     <table name="Garbage" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="period" sqlType="NVARCHAR(25)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="sum" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
       <column name="sum_per_month" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
@@ -37,6 +40,7 @@
     </table>
     <table name="Gas" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="period" sqlType="NVARCHAR(25)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="sum" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
       <column name="sum_per_month" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
@@ -44,6 +48,7 @@
     </table>
     <table name="Healting" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="date" sqlType="DATE" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="period" sqlType="NVARCHAR(25)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="sum" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
       <column name="sum_per_month" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
@@ -52,22 +57,22 @@
     <table name="Pay" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="date_pay" sqlType="DATE" precision="0" scale="-1" nullable="false" jdbcType="12"/>
-      <column name="electric_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
-      <column name="wather_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
-      <column name="gas_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
-      <column name="heating_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
-      <column name="dwelling_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
-      <column name="elevator_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
-      <column name="garbage_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
-      <column name="sum_pay" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
+      <column name="electric_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="wather_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="gas_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="heating_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="dwelling_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="elevator_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="garbage_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="sum_pay" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <primary-key columns="id"/>
-      <foreign-key name="#FAKE_Pay_1" columns="garbage_pay" ref-table="Garbage" ref-schema="" ref-catalog="" ref-columns="sum" update-rule="3" delete-rule="3" deferrability="1"/>
-      <foreign-key name="#FAKE_Pay_2" columns="elevator_pay" ref-table="Elevator" ref-schema="" ref-catalog="" ref-columns="sum" update-rule="3" delete-rule="3" deferrability="1"/>
-      <foreign-key name="#FAKE_Pay_3" columns="dwelling_pay" ref-table="Dwelling" ref-schema="" ref-catalog="" ref-columns="sum" update-rule="3" delete-rule="3" deferrability="1"/>
-      <foreign-key name="#FAKE_Pay_4" columns="heating_pay" ref-table="Healting" ref-schema="" ref-catalog="" ref-columns="sum" update-rule="3" delete-rule="3" deferrability="1"/>
-      <foreign-key name="#FAKE_Pay_5" columns="gas_pay" ref-table="Gas" ref-schema="" ref-catalog="" ref-columns="sum" update-rule="3" delete-rule="3" deferrability="1"/>
-      <foreign-key name="#FAKE_Pay_6" columns="wather_pay" ref-table="Wather" ref-schema="" ref-catalog="" ref-columns="sum" update-rule="3" delete-rule="3" deferrability="1"/>
-      <foreign-key name="#FAKE_Pay_7" columns="electric_pay" ref-table="Electric" ref-schema="" ref-catalog="" ref-columns="sum" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Pay_1" columns="garbage_pay" ref-table="Garbage" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Pay_2" columns="elevator_pay" ref-table="Elevator" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Pay_3" columns="dwelling_pay" ref-table="Dwelling" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Pay_4" columns="heating_pay" ref-table="Healting" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Pay_5" columns="gas_pay" ref-table="Gas" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Pay_6" columns="wather_pay" ref-table="Wather" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_Pay_7" columns="electric_pay" ref-table="Electric" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
     </table>
     <table name="Tarifs" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
