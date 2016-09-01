@@ -5,13 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.InnerShadow;
-import javafx.scene.paint.Color;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
-import ua.serg.objects.NumberTextField;
-
 
 import java.lang.reflect.Method;
 import java.time.LocalDate;
@@ -53,7 +48,7 @@ public class MainController {
     @FXML
     private Label labelTarifBefore100El;
     @FXML
-    private Label labelTarifBefore500El;
+    private Label labelTarifBefore600El;
     @FXML
     private Label labelToUseEl;
     @FXML
@@ -174,7 +169,7 @@ public class MainController {
     private final ObservableList<Integer> countPeople = FXCollections.observableArrayList(1, 2, 3, 4, 5);
     private final ObservableList<String> tarifName = FXCollections.observableArrayList(
             "Электроэнергия до 100 кВатт",
-            "Электроэнергия до 500 кВатт",
+            "Электроэнергия до 600 кВатт",
             "Водоснабжение",
             "Газоснабжение",
             "Теплоэнергия",
@@ -190,7 +185,6 @@ public class MainController {
         setPayPeriodDate();
 
 
-
     }
 
     private void setClearFields() {
@@ -198,7 +192,7 @@ public class MainController {
         setupClearButtonField(tfNewMetrReadingsEl);
         setupClearButtonField(tfOldMetrReadingsEl);
         setupClearButtonField(tfOldMetrReadingsWater);
-        setupClearButtonField(tfOldMetrReadingsWater);
+        setupClearButtonField(tfNewMetrReadingsWater);
 
     }
 
