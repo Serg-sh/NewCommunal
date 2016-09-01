@@ -5,6 +5,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.InnerShadow;
+import javafx.scene.paint.Color;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import ua.serg.objects.NumberTextField;
@@ -185,6 +188,7 @@ public class MainController {
         setClearFields();
         setCountPeopleAndTarifName();
         setPayPeriodDate();
+
 
 
     }

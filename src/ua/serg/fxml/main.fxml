@@ -45,12 +45,12 @@
                               <ComboBox fx:id="cbNewTarif" layoutX="426.0" layoutY="210.0" prefHeight="25.0" prefWidth="244.0" promptText="Выберите тариф" styleClass="fontLabel14" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="290.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                        <AnchorPane prefHeight="297.0" prefWidth="680.0" style="-fx-border-color: gray;">
                            <VBox.margin>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                            <children>
-                              <Label layoutX="14.0" layoutY="14.0" styleClass="styleFontLabel18" text="Последний платеж и задолженность">
+                              <Label layoutX="14.0" layoutY="14.0" styleClass="styleFontLabel18" text="Последний платеж и задолженность" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -506,7 +506,7 @@
                   </VBox>
                </content>
           </Tab>
-            <Tab styleClass="styleFontLabel18" text="История">
+            <Tab disable="true" styleClass="styleFontLabel18" text="История">
                <content>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
