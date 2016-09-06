@@ -3,10 +3,12 @@ package ua.serg.controllers;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
+
 
 import java.lang.reflect.Method;
 import java.time.LocalDate;
@@ -165,7 +167,6 @@ public class MainController {
     private Button btnUpdateDbHeating;
 
 
-
     private final ObservableList<Integer> countPeople = FXCollections.observableArrayList(1, 2, 3, 4, 5);
     private final ObservableList<String> tarifName = FXCollections.observableArrayList(
             "Электроэнергия до 100 кВатт",
@@ -209,7 +210,6 @@ public class MainController {
         cbCountPeopleGarbage.setValue(countPeople.get(1));
 
 
-
     }
 
     private void setPayPeriodDate() {
@@ -248,4 +248,8 @@ public class MainController {
     }
 
 
+    public void actionChange(ActionEvent actionEvent) {
+
+
+    }
 }
