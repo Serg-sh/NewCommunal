@@ -1,4 +1,4 @@
-package ua.serg.impl;
+package ua.serg.objects;
 
 import ua.serg.impl.AbstrsctPay;
 
