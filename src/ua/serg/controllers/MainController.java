@@ -1,17 +1,25 @@
 package ua.serg.controllers;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
+import ua.serg.impl.CollectionTarifs;
+import ua.serg.objects.Tarif;
+import ua.serg.utils.DialogManager;
 
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class MainController {
 
@@ -36,6 +44,18 @@ public class MainController {
     private Label labelLastDateDebts;
     @FXML
     private Label labelLastSumDebts;
+    @FXML
+    private TableColumn<Tarif, String> columnTableTarifsName;
+    @FXML
+    private TableColumn<Tarif, BigDecimal> columnTableTarifsTarif;
+    @FXML
+    private TableColumn<Tarif, Date> columnTableTarifsDate;
+    @FXML
+    private TableColumn<Tarif, Date> columnTableAllDate;
+    @FXML
+    private TableColumn<Tarif, BigDecimal> columnTableAllSum;
+    @FXML
+    private TableColumn<Tarif, String> columnTableAllComment;
 
 
     //Tab Calc -> tab El
@@ -177,10 +197,17 @@ public class MainController {
             "Квартплата",
             "Лифт",
             "Вывоз мусора");
+    private CollectionTarifs listTarif = new CollectionTarifs();
 
 
     @FXML
     private void initialize() {
+        columnTableTarifsName.setCellValueFactory(new PropertyValueFactory<Tarif, String>("name"));
+        columnTableTarifsTarif.setCellValueFactory(new PropertyValueFactory<Tarif, BigDecimal>("cost"));
+        columnTableTarifsDate.setCellValueFactory(new PropertyValueFactory<Tarif, Date>("dateChangeOfTarif"));
+        testFillData();
+
+
         setClearFields();
         setCountPeopleAndTarifName();
         setPayPeriodDate();
@@ -247,9 +274,47 @@ public class MainController {
         }
     }
 
+    //Кнопка изменить
+    public void actionBtnChange(ActionEvent actionEvent) {
 
-    public void actionChange(ActionEvent actionEvent) {
+        if (tableTarifs.getSelectionModel().isEmpty()) {
+            DialogManager.showErrorDialog("Ошибка!", "Выберите тариф для изменения");
+            return;
+        }
+
+        String name = ((Tarif) tableTarifs.getSelectionModel().getSelectedItem()).getName();
+        try {
+            BigDecimal cost = new BigDecimal(tfNewTarif.getText()).setScale(3, BigDecimal.ROUND_HALF_UP);
+            LocalDate dateChangeTarif = dpNewTarif.getValue();
+            ObservableList<Tarif> backupListTarif = FXCollections.observableArrayList();
+            backupListTarif.addAll(listTarif.getTarifsList());
+
+            for (Tarif tarif : backupListTarif) {
+
+                if (tarif.getName().equals(name)) {
+                    tarif.setCost(cost);
+                    tarif.setDateChangeOfTarif(dateChangeTarif);
+                    listTarif.clear();
+                    listTarif.add(backupListTarif);
+                    return;
+                }
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            DialogManager.showErrorDialog("Ошибка!", "Введите корректную стоимость!\nРазделитель дробной части точка.");
+        }
 
 
+    }
+
+
+    //    Test
+    private void testFillData() {
+        Double cost = 3.;
+        for (String nameTarif : tarifName) {
+
+            cost = cost * 0.91 / 0.74;
+            listTarif.add(new Tarif(nameTarif, null, new BigDecimal(cost).setScale(3, BigDecimal.ROUND_HALF_UP)));
+        }
+        tableTarifs.setItems(listTarif.getTarifsList());
     }
 }

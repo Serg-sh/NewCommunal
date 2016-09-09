@@ -1,4 +1,4 @@
-package ua.serg.objects;
+package ua.serg.utils;
 
 
 import java.sql.Connection;

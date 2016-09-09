@@ -10,21 +10,21 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://D:/Install/IDE/controlsfx-8.40.11/controlsfx-8.40.11.jar!/" />
+          <root url="jar://D:/Install/Programming/Tools/sqlite-jdbc-3.8.11.2.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://D:/Install/Programming/Tools/sqlite-jdbc-3.8.11.2.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://D:/Install/IDE/sqlite-jdbc-3.8.11.2.jar!/" />
+          <root url="jar://D:/Install/Programming/Tools/controlsfx-8.40.11/controlsfx-8.40.11.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="jar://D:/Install/IDE/sqlite-jdbc-3.8.11.2.jar!/" />
-        </SOURCES>
+        <SOURCES />
       </library>
     </orderEntry>
   </component>
