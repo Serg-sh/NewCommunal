@@ -12,6 +12,7 @@ import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import ua.serg.impl.CollectionTarifs;
 import ua.serg.objects.Tarif;
+import ua.serg.utils.DBUtils;
 import ua.serg.utils.DialogManager;
 
 
@@ -205,7 +206,8 @@ public class MainController {
         columnTableTarifsName.setCellValueFactory(new PropertyValueFactory<Tarif, String>("name"));
         columnTableTarifsTarif.setCellValueFactory(new PropertyValueFactory<Tarif, BigDecimal>("cost"));
         columnTableTarifsDate.setCellValueFactory(new PropertyValueFactory<Tarif, Date>("dateChangeOfTarif"));
-        testFillData();
+//        testFillData();
+        fillData();
 
 
         setClearFields();
@@ -276,6 +278,7 @@ public class MainController {
 
     //Кнопка изменить
     public void actionBtnChange(ActionEvent actionEvent) {
+        DBUtils.openConnection();
 
         if (tableTarifs.getSelectionModel().isEmpty()) {
             DialogManager.showErrorDialog("Ошибка!", "Выберите тариф для изменения");
@@ -284,21 +287,31 @@ public class MainController {
 
         String name = ((Tarif) tableTarifs.getSelectionModel().getSelectedItem()).getName();
         try {
+
             BigDecimal cost = new BigDecimal(tfNewTarif.getText()).setScale(3, BigDecimal.ROUND_HALF_UP);
             LocalDate dateChangeTarif = dpNewTarif.getValue();
-            ObservableList<Tarif> backupListTarif = FXCollections.observableArrayList();
-            backupListTarif.addAll(listTarif.getTarifsList());
 
-            for (Tarif tarif : backupListTarif) {
+            String sqlQuery = "UPDATE Tarifs SET date=" + dateChangeTarif + ", price="+ cost +
+                    "WHERE id=(SELECT id spr_name_tarif WHERE name =" + name;
+            DBUtils.updateDB(sqlQuery);
 
-                if (tarif.getName().equals(name)) {
-                    tarif.setCost(cost);
-                    tarif.setDateChangeOfTarif(dateChangeTarif);
-                    listTarif.clear();
-                    listTarif.add(backupListTarif);
-                    return;
-                }
-            }
+//            ObservableList<Tarif> backupListTarif = FXCollections.observableArrayList();
+//            backupListTarif.addAll(listTarif.getTarifsList());
+//
+//            for (Tarif tarif : backupListTarif) {
+//
+//                if (tarif.getName().equals(name)) {
+//                    tarif.setCost(cost);
+//                    tarif.setDateChangeOfTarif(dateChangeTarif);
+//                    listTarif.clear();
+//                    listTarif.add(backupListTarif);
+//                    return;
+//                }
+//            }
+
+
+
+
         } catch (NumberFormatException | NullPointerException e) {
             DialogManager.showErrorDialog("Ошибка!", "Введите корректную стоимость!\nРазделитель дробной части точка.");
         }
@@ -316,5 +329,13 @@ public class MainController {
             listTarif.add(new Tarif(nameTarif, null, new BigDecimal(cost).setScale(3, BigDecimal.ROUND_HALF_UP)));
         }
         tableTarifs.setItems(listTarif.getTarifsList());
+    }
+
+    private void fillData(){
+        DBUtils.openConnection();
+        listTarif.add(DBUtils.getResultsListTarif());
+        tableTarifs.setItems(listTarif.getTarifsList());
+        DBUtils.closeConnection();
+
     }
 }

@@ -42,7 +42,7 @@
                               <CustomTextField fx:id="tfNewTarif" layoutX="426.0" layoutY="85.0" prefHeight="25.0" prefWidth="85.0" styleClass="fontLabel14" AnchorPane.rightAnchor="169.0" AnchorPane.topAnchor="85.0" />
                               <DatePicker fx:id="dpNewTarif" layoutX="519.0" layoutY="85.0" prefHeight="25.0" prefWidth="151.0" styleClass="fontLabel14" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="85.0" />
                               <Button fx:id="btnChangeTarif" layoutX="469.0" layoutY="146.0" mnemonicParsing="false" onAction="#actionBtnChange" prefHeight="54.0" prefWidth="158.0" styleClass="styleFontLabel18" text="Изменить" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="53.0" />
-                              <ComboBox fx:id="cbNewTarif" layoutX="426.0" layoutY="210.0" prefHeight="25.0" prefWidth="244.0" promptText="Выберите тариф" styleClass="fontLabel14" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
+                              <ComboBox fx:id="cbNewTarif" disable="true" layoutX="426.0" layoutY="210.0" prefHeight="25.0" prefWidth="244.0" promptText="Выберите тариф" styleClass="fontLabel14" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="297.0" prefWidth="680.0" style="-fx-border-color: gray;">

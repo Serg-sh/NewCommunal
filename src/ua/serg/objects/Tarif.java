@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * Created by shpak on 05.09.2016.
  */
 public class Tarif {
-    private Tarif() {
+    public Tarif() {
     }
 
     public Tarif(String name, LocalDate dateChangeOfTarif, BigDecimal cost) {
@@ -51,14 +51,5 @@ public class Tarif {
         return name + " Стимость: " + cost + " грн." + " Дата изменения: " + dateChangeOfTarif;
     }
 
-    @Override
-    public boolean equals(Object trf) {
-        Tarif tarif = (Tarif) trf;
-        if (tarif.getName().equals(this.getName())
-                && tarif.dateChangeOfTarif.equals(this.dateChangeOfTarif)
-                && tarif.getCost()==this.getCost()){
-            return true;
-        }
-        return false;
-    }
+
 }

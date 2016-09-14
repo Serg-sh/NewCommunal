@@ -74,6 +74,16 @@
       <foreign-key name="#FAKE_Pay_6" columns="wather_pay" ref-table="Wather" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
       <foreign-key name="#FAKE_Pay_7" columns="electric_pay" ref-table="Electric" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
     </table>
+    <table name="Pays_view" schema="" catalog="" type="VIEW">
+      <column name="DATE" sqlType="DATE" precision="0" scale="-1" nullable="true" jdbcType="12"/>
+      <column name="SUMEL" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="SUMWAT" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="SUMDWE" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="SUMHEA" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="SUMGAS" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="SUMELEV" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="SUMGARB" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+    </table>
     <table name="Tarifs" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="name_tarif_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
@@ -81,6 +91,11 @@
       <column name="price" sqlType="DOUBLE" precision="0" scale="-1" nullable="false" jdbcType="6"/>
       <primary-key columns="id"/>
       <foreign-key name="#FAKE_Tarifs_1" columns="name_tarif_id" ref-table="spr_name_tarifs" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+    </table>
+    <table name="View_tarif_lastDate" schema="" catalog="" type="VIEW">
+      <column name="NAME" sqlType="NVARCHAR(25)" precision="0" scale="-1" nullable="true" jdbcType="12"/>
+      <column name="DATE" sqlType="DATE" precision="0" scale="-1" nullable="true" jdbcType="12"/>
+      <column name="PRICE" sqlType="DOUBLE" precision="0" scale="-1" nullable="true" jdbcType="6"/>
     </table>
     <table name="Wather" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>

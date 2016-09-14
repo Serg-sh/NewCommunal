@@ -1,10 +1,12 @@
 package ua.serg.utils;
 
 
-import java.sql.Connection;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import ua.serg.objects.Tarif;
+
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,4 +43,59 @@ public class DBUtils {
             }
         }
     }
+
+    public static ObservableList<Tarif> getResultsListTarif() {
+        String sqlQuery = "SELECT * FROM View_tarif_lastDate";
+        ObservableList<Tarif> resList = FXCollections.observableArrayList();
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+
+            while (rs.next()) {
+                Tarif tarif = new Tarif();
+                tarif.setName(rs.getString("NAME"));
+                tarif.setDateChangeOfTarif(LocalDate.parse(rs.getString("DATE")));
+                tarif.setCost(rs.getBigDecimal("PRICE"));
+                resList.add(tarif);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+
+
+        return resList;
+    }
+
+    private static void closeStatements(Statement statement, ResultSet rs) {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateDB(String sqlQuery){
+        Statement statement = null;
+        ResultSet rs = null;
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+    }
+
+
 }
