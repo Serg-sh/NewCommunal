@@ -50,7 +50,7 @@
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                            <children>
-                              <Label layoutX="14.0" layoutY="14.0" styleClass="styleFontLabel18" text="Последний платеж и задолженность" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
+                              <Label layoutX="14.0" layoutY="14.0" styleClass="styleFontLabel18" text="История платежей" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>

@@ -25,7 +25,6 @@ public class Tarif {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -33,7 +32,6 @@ public class Tarif {
     public LocalDate getDateChangeOfTarif() {
         return dateChangeOfTarif;
     }
-
     public void setDateChangeOfTarif(LocalDate dateChangeOfTarif) {
         this.dateChangeOfTarif = dateChangeOfTarif;
     }
@@ -41,9 +39,8 @@ public class Tarif {
     public BigDecimal getCost() {
         return cost;
     }
-
     public void setCost(BigDecimal cost) {
-        this.cost = cost;
+        this.cost = cost.setScale(4, BigDecimal.ROUND_HALF_UP);
     }
 
     @Override

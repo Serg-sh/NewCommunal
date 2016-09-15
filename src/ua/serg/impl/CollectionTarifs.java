@@ -20,14 +20,10 @@ public class CollectionTarifs implements InterfaceMyCollectionTarif {
         tarifsList.addAll(listTarif);
     }
 
-    @Override
-    public void update(Tarif tarif) {
-
-    }
 
     @Override
     public void delete(Tarif tarif) {
-
+        tarifsList.remove(tarif);
     }
 
     @Override

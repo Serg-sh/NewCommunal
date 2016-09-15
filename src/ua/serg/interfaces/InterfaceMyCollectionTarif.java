@@ -7,7 +7,6 @@ import ua.serg.objects.Tarif;
  */
 public interface InterfaceMyCollectionTarif {
     void add (Tarif tarif);
-    void update(Tarif tarif);
     void delete(Tarif tarif);
     void clear();
 }

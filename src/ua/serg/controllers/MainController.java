@@ -1,7 +1,6 @@
 package ua.serg.controllers;
 
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,20 +9,30 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
+import ua.serg.impl.CollectionPays;
 import ua.serg.impl.CollectionTarifs;
+import ua.serg.objects.Pay;
 import ua.serg.objects.Tarif;
 import ua.serg.utils.DBUtils;
 import ua.serg.utils.DialogManager;
 
-
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.Date;
 
 public class MainController {
 
+    private final ObservableList<Integer> countPeople = FXCollections.observableArrayList(1, 2, 3, 4, 5);
+    private final ObservableList<String> tarifName = FXCollections.observableArrayList(
+            "Электроэнергия до 100 кВатт",
+            "Электроэнергия до 600 кВатт",
+            "Водоснабжение",
+            "Газоснабжение",
+            "Теплоэнергия",
+            "Квартплата",
+            "Лифт",
+            "Вывоз мусора");
     // Tab Tarifs
     @FXML
     private CustomTextField tfNewTarif;  /*изменить на NumberTextField в Main.fxml тоже*/
@@ -52,13 +61,11 @@ public class MainController {
     @FXML
     private TableColumn<Tarif, Date> columnTableTarifsDate;
     @FXML
-    private TableColumn<Tarif, Date> columnTableAllDate;
+    private TableColumn<Pay, Date> columnTableAllDate;
     @FXML
-    private TableColumn<Tarif, BigDecimal> columnTableAllSum;
+    private TableColumn<Pay, BigDecimal> columnTableAllSum;
     @FXML
-    private TableColumn<Tarif, String> columnTableAllComment;
-
-
+    private TableColumn<Pay, String> columnTableAllComment;
     //Tab Calc -> tab El
     @FXML
     private CustomTextField tfNewMetrReadingsEl; /*изменить на NumberTextField в Main.fxml тоже*/
@@ -80,8 +87,6 @@ public class MainController {
     private TableView tableHistoryEl;
     @FXML
     private Button btnUpdateDbEl;
-
-
     // Tab Calc -> tab Water
     @FXML
     private CustomTextField tfNewMetrReadingsWater; /*изменить на NumberTextField в Main.fxml тоже*/
@@ -101,8 +106,6 @@ public class MainController {
     private TableView tableHistoryWater;
     @FXML
     private Button btnUpdateDbWater;
-
-
     // Tab Calc -> tab Gas
     @FXML
     private DatePicker dpStartPayPeriodGas;
@@ -120,8 +123,6 @@ public class MainController {
     private TableView tableHistoryGas;
     @FXML
     private Button btnUpdateDbGas;
-
-
     // Tab Calc -> tab Dwelling
     @FXML
     private DatePicker dpStartPayPeriodDwelling;
@@ -137,8 +138,6 @@ public class MainController {
     private TableView tableHistoryDwelling;
     @FXML
     private Button btnUpdateDbDwelling;
-
-
     // Tab Calc -> tab Elevator
     @FXML
     private DatePicker dpStartPayPeriodElevator;
@@ -154,8 +153,6 @@ public class MainController {
     private TableView tableHistoryElevator;
     @FXML
     private Button btnUpdateDbElevator;
-
-
     // Tab Calc -> tab Garbage
     @FXML
     private DatePicker dpStartPayPeriodGarbage;
@@ -171,8 +168,6 @@ public class MainController {
     private TableView tableHistoryGarbage;
     @FXML
     private Button btnUpdateDbGarbage;
-
-
     // Tab Calc -> tab Heating
     @FXML
     private DatePicker dpStartPayPeriodHeating;
@@ -187,34 +182,27 @@ public class MainController {
     @FXML
     private Button btnUpdateDbHeating;
 
-
-    private final ObservableList<Integer> countPeople = FXCollections.observableArrayList(1, 2, 3, 4, 5);
-    private final ObservableList<String> tarifName = FXCollections.observableArrayList(
-            "Электроэнергия до 100 кВатт",
-            "Электроэнергия до 600 кВатт",
-            "Водоснабжение",
-            "Газоснабжение",
-            "Теплоэнергия",
-            "Квартплата",
-            "Лифт",
-            "Вывоз мусора");
     private CollectionTarifs listTarif = new CollectionTarifs();
+    private CollectionPays listPay = new CollectionPays();
 
 
     @FXML
     private void initialize() {
+//  таблица тарифов
         columnTableTarifsName.setCellValueFactory(new PropertyValueFactory<Tarif, String>("name"));
         columnTableTarifsTarif.setCellValueFactory(new PropertyValueFactory<Tarif, BigDecimal>("cost"));
         columnTableTarifsDate.setCellValueFactory(new PropertyValueFactory<Tarif, Date>("dateChangeOfTarif"));
-//        testFillData();
+
+//  таблица платежей
+        columnTableAllDate.setCellValueFactory(new PropertyValueFactory<Pay, Date>("dateOfPay"));
+        columnTableAllSum.setCellValueFactory(new PropertyValueFactory<Pay, BigDecimal>("sum"));
+        columnTableAllComment.setCellValueFactory(new PropertyValueFactory<Pay, String>("comment"));
+
+
         fillData();
-
-
-        setClearFields();
-        setCountPeopleAndTarifName();
+        setClearFields(); /*установка самоочищающегос поля*/
+        setCountPeopleAndTarifName(); /*усттановка кол-ва пропис. и названия тарифов */
         setPayPeriodDate();
-
-
     }
 
     private void setClearFields() {
@@ -257,7 +245,6 @@ public class MainController {
         dpEndPayPeriodGarbage.setValue(LocalDate.now());
         dpStartPayPeriodHeating.setValue(setFirstMonthDey());
         dpEndPayPeriodHeating.setValue(LocalDate.now());
-
     }
 
     private LocalDate setFirstMonthDey() {
@@ -291,51 +278,28 @@ public class MainController {
             BigDecimal cost = new BigDecimal(tfNewTarif.getText()).setScale(3, BigDecimal.ROUND_HALF_UP);
             LocalDate dateChangeTarif = dpNewTarif.getValue();
 
-            String sqlQuery = "UPDATE Tarifs SET date=" + dateChangeTarif + ", price="+ cost +
-                    "WHERE id=(SELECT id spr_name_tarif WHERE name =" + name;
+            String sqlQuery = "INSERT INTO Tarifs (name_tarif_id, date, price) " +
+                    "VALUES ((SELECT id FROM spr_name_tarifs WHERE name=" + "'" + name + "'" + ")," + "'" + dateChangeTarif + "'" + "," + cost + ")";
+
             DBUtils.updateDB(sqlQuery);
-
-//            ObservableList<Tarif> backupListTarif = FXCollections.observableArrayList();
-//            backupListTarif.addAll(listTarif.getTarifsList());
-//
-//            for (Tarif tarif : backupListTarif) {
-//
-//                if (tarif.getName().equals(name)) {
-//                    tarif.setCost(cost);
-//                    tarif.setDateChangeOfTarif(dateChangeTarif);
-//                    listTarif.clear();
-//                    listTarif.add(backupListTarif);
-//                    return;
-//                }
-//            }
-
-
-
-
+            fillData();
         } catch (NumberFormatException | NullPointerException e) {
             DialogManager.showErrorDialog("Ошибка!", "Введите корректную стоимость!\nРазделитель дробной части точка.");
         }
-
-
     }
 
-
-    //    Test
-    private void testFillData() {
-        Double cost = 3.;
-        for (String nameTarif : tarifName) {
-
-            cost = cost * 0.91 / 0.74;
-            listTarif.add(new Tarif(nameTarif, null, new BigDecimal(cost).setScale(3, BigDecimal.ROUND_HALF_UP)));
-        }
-        tableTarifs.setItems(listTarif.getTarifsList());
-    }
-
-    private void fillData(){
+    private void fillData() {
         DBUtils.openConnection();
+
+        listTarif.clear();
         listTarif.add(DBUtils.getResultsListTarif());
         tableTarifs.setItems(listTarif.getTarifsList());
-        DBUtils.closeConnection();
+
+        listPay.clear();
+        listPay.add(DBUtils.getResultsListPay());
+        tableAll.setItems(listPay.getPaysList());
+
+//        DBUtils.closeConnection();
 
     }
 }
