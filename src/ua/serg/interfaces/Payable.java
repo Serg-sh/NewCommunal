@@ -1,9 +1,11 @@
 package ua.serg.interfaces;
 
+import java.math.BigDecimal;
+
 /**
  * Created by shpak on 01.09.2016.
  */
 public interface Payable {
-    Double getSum();
-    Double getSumPerMonth();
+    BigDecimal getSum();
+    BigDecimal getSumPerMonth();
 }

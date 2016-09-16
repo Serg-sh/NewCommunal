@@ -10,6 +10,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import ua.serg.impl.CollectionPays;
+import ua.serg.impl.CollectionService;
+import ua.serg.impl.CollectionServiceMetr;
 import ua.serg.impl.CollectionTarifs;
 import ua.serg.objects.Pay;
 import ua.serg.objects.Tarif;
@@ -184,6 +186,13 @@ public class MainController {
 
     private CollectionTarifs listTarif = new CollectionTarifs();
     private CollectionPays listPay = new CollectionPays();
+    private CollectionServiceMetr listElectric = new CollectionServiceMetr();
+    private CollectionServiceMetr listWater = new CollectionServiceMetr();
+    private CollectionService listHeating = new CollectionService();
+    private CollectionService listGas = new CollectionService();
+    private CollectionService listDwelling = new CollectionService();
+    private CollectionService listElevator = new CollectionService();
+    private CollectionService listGarbage = new CollectionService();
 
 
     @FXML

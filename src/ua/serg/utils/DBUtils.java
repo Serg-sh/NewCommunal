@@ -3,6 +3,9 @@ package ua.serg.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import ua.serg.impl.AbstrsctPay;
+import ua.serg.objects.Dwelling;
+import ua.serg.objects.Healting;
 import ua.serg.objects.Pay;
 import ua.serg.objects.Tarif;
 
@@ -65,6 +68,19 @@ public class DBUtils {
         }
     }
 
+    public static void updateDB(String sqlQuery) {
+        Statement statement = null;
+        try {
+            statement = con.createStatement();
+            statement.executeUpdate(sqlQuery);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement);
+    }
+
     public static ObservableList<Tarif> getResultsListTarif() {
         String sqlQuery = "SELECT * FROM View_tarif_lastDate ORDER BY NAME DESC ";
         ObservableList<Tarif> resList = FXCollections.observableArrayList();
@@ -91,20 +107,6 @@ public class DBUtils {
 
         return resList;
     }
-
-    public static void updateDB(String sqlQuery) {
-        Statement statement = null;
-        try {
-            statement = con.createStatement();
-            statement.executeUpdate(sqlQuery);
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        closeStatements(statement);
-    }
-
 
     public static ObservableList<Pay> getResultsListPay() {
         String sqlQuery = "SELECT * FROM View_pays";
@@ -139,4 +141,35 @@ public class DBUtils {
 
         return resList;
     }
+
+    public static ObservableList<AbstrsctPay> getResultsListService(String sqlQuery, AbstrsctPay service) {
+
+        ObservableList<AbstrsctPay> resList = FXCollections.observableArrayList();
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+
+            while (rs.next()) {
+                AbstrsctPay ser;
+                switch (service.getClass().getName()){
+                    case "Dwelling" : ser = new Dwelling();
+                        break;
+                    case "Healting" : ser = new Healting();
+                }
+
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+
+
+        return resList;
+    }
 }
+
