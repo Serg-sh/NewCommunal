@@ -194,8 +194,8 @@ public class DBUtils {
                 }
                 service.setDatePay(LocalDate.parse(rs.getString("date")));
                 service.setPeriod(rs.getString("period"));
-
-
+                service.setMetrReadingsEnd(rs.getInt("metr_readings"));
+                service.setToUse(rs.getInt("to_use"));
                 service.setSum(rs.getBigDecimal("sum"));
                 service.setSumPerMonth(rs.getBigDecimal("sum_per_month"));
                 resList.add(service);
@@ -209,6 +209,24 @@ public class DBUtils {
 
 
         return resList;
+    }
+
+    public static Integer getStartMetrReadings (String db){
+        Integer startMetrReadings = 0;
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery("SELECT metr_readings FROM " + db + " WHERE date=(SELECT MAX(date) FROM " + db + ")");
+            startMetrReadings = rs.getInt("metr_readings");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+
+        return startMetrReadings;
     }
 }
 

@@ -149,12 +149,12 @@
                                              <children>
                                                 <TableView fx:id="tableHistoryEl" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="650.0" styleClass="fontColumnl12" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
                                                   <columns>
-                                                    <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
-                                                    <TableColumn minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
-                                                      <TableColumn minWidth="40.0" prefWidth="40.0" styleClass="fontColumnl12" text="Показания сч-а" />
-                                                      <TableColumn minWidth="30.0" prefWidth="30.0" styleClass="fontColumnl12" text="Кол-во (кВатт)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
+                                                    <TableColumn fx:id="ctHistoryElDate" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
+                                                    <TableColumn fx:id="ctHistoryElPeriod" minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
+                                                      <TableColumn fx:id="ctHistoryElMetr" minWidth="40.0" prefWidth="40.0" styleClass="fontColumnl12" text="Показания сч-а" />
+                                                      <TableColumn fx:id="ctHistoryElToUse" minWidth="30.0" prefWidth="30.0" styleClass="fontColumnl12" text="Кол-во (кВатт)" />
+                                                      <TableColumn fx:id="ctHistoryElSum" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
+                                                      <TableColumn fx:id="ctHistoryElSumPerM" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
                                                   </columns>
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -202,12 +202,12 @@
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
                                                    <columns>
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
-                                                      <TableColumn minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
-                                                      <TableColumn minWidth="40.0" prefWidth="40.0" styleClass="fontColumnl12" text="Показания сч-а" />
-                                                      <TableColumn minWidth="30.0" prefWidth="30.0" styleClass="fontColumnl12" text="Кол-во (кб.м)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
+                                                      <TableColumn fx:id="ctHistoryWaterDate" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
+                                                      <TableColumn fx:id="ctHistoryWaterPeriod" minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
+                                                      <TableColumn fx:id="ctHistoryWaterMetr" minWidth="40.0" prefWidth="40.0" styleClass="fontColumnl12" text="Показания сч-а" />
+                                                      <TableColumn fx:id="ctHistoryWaterToUse" minWidth="30.0" prefWidth="30.0" styleClass="fontColumnl12" text="Кол-во (кб.м)" />
+                                                      <TableColumn fx:id="ctHistoryWaterSum" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
+                                                      <TableColumn fx:id="ctHistoryWaterSumPerM" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
                                                    </columns>
                                                 </TableView>
                                                 <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">

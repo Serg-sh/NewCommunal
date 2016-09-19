@@ -2,6 +2,7 @@ package ua.serg.objects;
 
 import ua.serg.impl.AbstrsctPay;
 
+import java.time.LocalDate;
 
 
 /**
@@ -9,9 +10,10 @@ import ua.serg.impl.AbstrsctPay;
  */
 public abstract class AbstractPayWithMetrReadings extends AbstrsctPay {
 
-    private Integer metrReadingsStart;
-    private Integer metrReadingsEnd;
-    private Integer toUse;
+    protected String name;
+    protected Integer metrReadingsStart;
+    protected Integer metrReadingsEnd;
+    protected Integer toUse;
 
     public Integer getMetrReadingsStart() {
         return metrReadingsStart;
@@ -30,7 +32,9 @@ public abstract class AbstractPayWithMetrReadings extends AbstrsctPay {
     public Integer getToUse() {
         return toUse;
     }
-    public void setToUse() {
-        this.toUse = metrReadingsEnd - metrReadingsStart;
+    public void setToUse(Integer toUse) {
+        this.toUse = toUse;
     }
+
+
 }

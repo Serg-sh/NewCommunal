@@ -66,7 +66,7 @@ public class MainController {
     @FXML
     private TableColumn<Pay, String> columnTableAllComment;
 
-    //Tab Calc -> tab El
+    //Tab Calc -> tab Electric
     @FXML
     private CustomTextField tfNewMetrReadingsEl; /*изменить на NumberTextField в Main.fxml тоже*/
     @FXML
@@ -87,6 +87,18 @@ public class MainController {
     private TableView tableHistoryEl;
     @FXML
     private Button btnUpdateDbEl;
+    @FXML
+    private TableColumn<Electric, Date> ctHistoryElDate;
+    @FXML
+    private TableColumn<Electric, String> ctHistoryElPeriod;
+    @FXML
+    private TableColumn<Electric, Integer> ctHistoryElMetr;
+    @FXML
+    private TableColumn<Electric, Integer> ctHistoryElToUse;
+    @FXML
+    private TableColumn<Electric, BigDecimal> ctHistoryElSum;
+    @FXML
+    private TableColumn<Electric, BigDecimal> ctHistoryElSumPerM;
 
     // Tab Calc -> tab Water
     @FXML
@@ -107,6 +119,18 @@ public class MainController {
     private TableView tableHistoryWater;
     @FXML
     private Button btnUpdateDbWater;
+    @FXML
+    private TableColumn<Wather, Date> ctHistoryWaterDate;
+    @FXML
+    private TableColumn<Wather, String> ctHistoryWaterPeriod;
+    @FXML
+    private TableColumn<Wather, Integer> ctHistoryWaterMetr;
+    @FXML
+    private TableColumn<Wather, Integer> ctHistoryWaterToUse;
+    @FXML
+    private TableColumn<Wather, BigDecimal> ctHistoryWaterSum;
+    @FXML
+    private TableColumn<Wather, BigDecimal> ctHistoryWaterSumPerM;
 
     // Tab Calc -> tab Gas
     @FXML
@@ -282,6 +306,22 @@ public class MainController {
         ctHistoryGarbageSum.setCellValueFactory(new PropertyValueFactory<Garbage, BigDecimal>("sum"));
         ctHistoryGarbageSumPerM.setCellValueFactory(new PropertyValueFactory<Garbage, BigDecimal>("sumPerMonth"));
 
+//        Таблица Электроэнергия
+        ctHistoryElDate.setCellValueFactory(new PropertyValueFactory<Electric, Date>("datePay"));
+        ctHistoryElPeriod.setCellValueFactory(new PropertyValueFactory<Electric, String>("period"));
+        ctHistoryElMetr.setCellValueFactory(new PropertyValueFactory<Electric, Integer>("metrReadingsEnd"));
+        ctHistoryElToUse.setCellValueFactory(new PropertyValueFactory<Electric, Integer>("toUse"));
+        ctHistoryElSum.setCellValueFactory(new PropertyValueFactory<Electric, BigDecimal>("sum"));
+        ctHistoryElSumPerM.setCellValueFactory(new PropertyValueFactory<Electric, BigDecimal>("sumPerMonth"));
+
+//        Таблица вода
+        ctHistoryWaterDate.setCellValueFactory(new PropertyValueFactory<Wather, Date>("datePay"));
+        ctHistoryWaterPeriod.setCellValueFactory(new PropertyValueFactory<Wather, String>("period"));
+        ctHistoryWaterMetr.setCellValueFactory(new PropertyValueFactory<Wather, Integer>("metrReadingsEnd"));
+        ctHistoryWaterToUse.setCellValueFactory(new PropertyValueFactory<Wather, Integer>("toUse"));
+        ctHistoryWaterSum.setCellValueFactory(new PropertyValueFactory<Wather, BigDecimal>("sum"));
+        ctHistoryWaterSumPerM.setCellValueFactory(new PropertyValueFactory<Wather, BigDecimal>("sumPerMonth"));
+
 
         fillData();
         setClearFields(); /*установка самоочищающегос поля*/
@@ -384,31 +424,39 @@ public class MainController {
         tableAll.setItems(listPay.getPaysList());
 
         listGas.clear();
-        listGas.add(DBUtils.getResultsListService("SELECT * FROM Gas", new Gas()));
+        listGas.add(DBUtils.getResultsListService("SELECT * FROM Gas ORDER BY date DESC", new Gas()));
         tableHistoryGas.setItems(listGas.getServiceList());
 
         listHeating.clear();
-        listHeating.add(DBUtils.getResultsListService("SELECT * FROM Healting", new Healting()));
+        listHeating.add(DBUtils.getResultsListService("SELECT * FROM Healting ORDER BY date DESC", new Healting()));
         tableHistoryHeating.setItems(listHeating.getServiceList());
 
         listDwelling.clear();
-        listDwelling.add(DBUtils.getResultsListService("SELECT * FROM Dwelling", new Dwelling()));
+        listDwelling.add(DBUtils.getResultsListService("SELECT * FROM Dwelling ORDER BY date DESC", new Dwelling()));
         tableHistoryDwelling.setItems(listDwelling.getServiceList());
 
         listElevator.clear();
-        listElevator.add(DBUtils.getResultsListService("SELECT * FROM Elevator", new Elevator()));
+        listElevator.add(DBUtils.getResultsListService("SELECT * FROM Elevator ORDER BY date DESC", new Elevator()));
         tableHistoryElevator.setItems(listElevator.getServiceList());
 
         listGarbage.clear();
-        listGarbage.add(DBUtils.getResultsListService("SELECT * FROM Garbage", new Garbage()));
+        listGarbage.add(DBUtils.getResultsListService("SELECT * FROM Garbage ORDER BY date DESC", new Garbage()));
         tableHistoryGarbage.setItems(listGarbage.getServiceList());
+
+        listElectric.clear();
+        listElectric.add(DBUtils.getResultsListServiceMetr("SELECT * FROM Electric ORDER BY date DESC", new Electric()));
+        tableHistoryEl.setItems(listElectric.getServiceList());
+
+        listWater.clear();
+        listWater.add(DBUtils.getResultsListServiceMetr("SELECT * FROM Wather ORDER BY date DESC", new Wather()));
+        tableHistoryWater.setItems(listWater.getServiceList());
 
 //        DBUtils.closeConnection();
 
     }
 
     public void btnActionElectric(ActionEvent actionEvent) {
-        AbstrsctPay ap = new Electric();
-        System.out.println(ap instanceof AbstrsctPay);
+
+        System.out.println(DBUtils.getStartMetrReadings("Wather"));
     }
 }
