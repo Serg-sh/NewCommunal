@@ -31,4 +31,8 @@ public class CollectionService implements InterfaceMyCollectionService {
     public void clear() {
         serviceList.clear();
     }
+
+    public ObservableList<AbstrsctPay> getServiceList() {
+        return serviceList;
+    }
 }

@@ -32,4 +32,8 @@ public class CollectionServiceMetr implements InterfaceMyCollectionServiceMetr {
     public void clear() {
         serviceList.clear();
     }
+
+    public ObservableList<AbstractPayWithMetrReadings> getServiceList() {
+        return serviceList;
+    }
 }

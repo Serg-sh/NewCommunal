@@ -4,10 +4,7 @@ package ua.serg.utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ua.serg.impl.AbstrsctPay;
-import ua.serg.objects.Dwelling;
-import ua.serg.objects.Healting;
-import ua.serg.objects.Pay;
-import ua.serg.objects.Tarif;
+import ua.serg.objects.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -151,15 +148,57 @@ public class DBUtils {
         try {
             statement = con.createStatement();
             rs = statement.executeQuery(sqlQuery);
-
             while (rs.next()) {
-                AbstrsctPay ser;
-                switch (service.getClass().getName()){
-                    case "Dwelling" : ser = new Dwelling();
-                        break;
-                    case "Healting" : ser = new Healting();
+                if (service instanceof Gas){
+                    service = new Gas();
+                }else if (service instanceof Healting){
+                    service = new Healting();
+                }else if (service instanceof Dwelling){
+                    service = new Dwelling();
+                }else if (service instanceof Elevator){
+                    service = new Elevator();
+                }else if (service instanceof Garbage){
+                    service = new Garbage();
                 }
+                service.setDatePay(LocalDate.parse(rs.getString("date")));
+                service.setPeriod(rs.getString("period"));
+                service.setSum(rs.getBigDecimal("sum"));
+                service.setSumPerMonth(rs.getBigDecimal("sum_per_month"));
+                resList.add(service);
 
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+
+
+        return resList;
+    }
+
+    public static ObservableList<AbstractPayWithMetrReadings> getResultsListServiceMetr(String sqlQuery, AbstractPayWithMetrReadings service) {
+
+        ObservableList<AbstractPayWithMetrReadings> resList = FXCollections.observableArrayList();
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+            while (rs.next()) {
+                if (service instanceof Electric){
+                    service = new Electric();
+                }else if (service instanceof Wather){
+                    service = new Wather();
+                }
+                service.setDatePay(LocalDate.parse(rs.getString("date")));
+                service.setPeriod(rs.getString("period"));
+
+
+                service.setSum(rs.getBigDecimal("sum"));
+                service.setSumPerMonth(rs.getBigDecimal("sum_per_month"));
+                resList.add(service);
 
             }
 

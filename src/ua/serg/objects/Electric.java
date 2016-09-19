@@ -12,11 +12,11 @@ public class Electric extends AbstractPayWithMetrReadings {
 
     @Override
     public BigDecimal getSum() {
-        return null;
+        return sum;
     }
 
     @Override
     public BigDecimal getSumPerMonth() {
-        return null;
+        return sumPerMonth;
     }
 }

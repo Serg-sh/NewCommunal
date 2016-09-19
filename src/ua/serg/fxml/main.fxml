@@ -136,7 +136,7 @@
                                                 <CustomTextField fx:id="tfNewMetrReadingsEl" layoutX="140.0" layoutY="85.0" prefHeight="25.0" prefWidth="105.0" promptText="Нов. покж-я" styleClass="fontLabel14" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="85.0" />
                                                 <Label fx:id="labelToUseEl" layoutX="17.0" layoutY="129.0" prefHeight="24.0" prefWidth="232.0" styleClass="fontLabel14" text="Потребленно кол-во кВатт" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="130.0" />
                                                 <Label fx:id="labelSumEl" layoutX="14.0" layoutY="165.0" prefHeight="41.0" prefWidth="321.0" styleClass="styleFontLabel18" text="Сумма к оплате СУММА грн." AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="165.0" />
-                                                <Button fx:id="btnUpdateDbEl" layoutX="14.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="fontLabel14" text="Записать в базу" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="215.0" />
+                                                <Button fx:id="btnUpdateDbEl" layoutX="14.0" layoutY="215.0" mnemonicParsing="false" onAction="#btnActionElectric" prefHeight="25.0" prefWidth="200.0" styleClass="fontLabel14" text="Записать в базу" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="215.0" />
                                              </children>
                                           </AnchorPane>
                                           <AnchorPane prefHeight="334.0" prefWidth="680.0" style="-fx-border-color: gray;">
@@ -227,60 +227,6 @@
                                     </VBox>
                                  </content>
                             </Tab>
-                              <Tab styleClass="fontColumnl12" text="Газоснабжение">
-                                 <content>
-                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
-                                       <children>
-                                          <AnchorPane prefHeight="270.0" prefWidth="680.0" style="-fx-border-color: gray;">
-                                             <children>
-                                                <Label fx:id="labelTarifGas" layoutX="14.0" layoutY="53.0" prefHeight="17.0" prefWidth="222.0" styleClass="fontLabel14" text="Тариф:  сумма  грн./кб.м " AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="55.0" />
-                                                <Label layoutX="16.0" layoutY="22.0" prefHeight="17.0" prefWidth="122.0" styleClass="fontLabel14" text="Период оплаты с " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="21.0" />
-                                                <DatePicker fx:id="dpStartPayPeriodGas" layoutX="117.0" layoutY="16.0" prefHeight="25.0" prefWidth="120.0" styleClass="fontLabel14" AnchorPane.leftAnchor="137.0" AnchorPane.topAnchor="16.0" />
-                                                <Label layoutX="248.0" layoutY="20.0" prefHeight="17.0" prefWidth="30.0" styleClass="fontLabel14" text="по" AnchorPane.leftAnchor="268.0" AnchorPane.topAnchor="20.0" />
-                                                <DatePicker fx:id="dpEndPayPeriodGas" layoutX="280.0" layoutY="16.0" prefHeight="25.0" prefWidth="120.0" styleClass="fontLabel14" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="16.0" />
-                                                <Label fx:id="labelToUseGas" layoutX="17.0" layoutY="129.0" prefHeight="24.0" prefWidth="232.0" styleClass="fontLabel14" text="Потребленно кол-во кб.м" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="130.0" />
-                                                <Label fx:id="labelSumGas" layoutX="14.0" layoutY="165.0" prefHeight="41.0" prefWidth="321.0" styleClass="styleFontLabel18" text="Сумма к оплате СУММА грн." AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="165.0" />
-                                                <Button fx:id="btnUpdateDbGas" layoutX="14.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="fontLabel14" text="Записать в базу" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="215.0" />
-                                                <Label layoutX="23.0" layoutY="97.0" prefHeight="17.0" prefWidth="228.0" styleClass="fontLabel14" text="Прописанно человек в квартире:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
-                                                <ComboBox fx:id="cbCountPeopleGaz" layoutX="241.0" layoutY="95.0" prefHeight="25.0" prefWidth="60.0" styleClass="fontLabel14" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="91.0" />
-                                             </children>
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <VBox.margin>
-                                                <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                          <AnchorPane prefHeight="334.0" prefWidth="680.0" style="-fx-border-color: gray;">
-                                             <children>
-                                                <TableView fx:id="tableHistoryGas" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="650.0" styleClass="fontColumnl12" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
-                                                   <columnResizePolicy>
-                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                                   </columnResizePolicy>
-                                                   <columns>
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
-                                                      <TableColumn minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
-                                                   </columns>
-                                                </TableView>
-                                                <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">
-                                                   <font>
-                                                      <Font name="Book Antiqua" size="22.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                             <opaqueInsets>
-                                                <Insets />
-                                             </opaqueInsets>
-                                             <VBox.margin>
-                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
-                                             </VBox.margin>
-                                          </AnchorPane>
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </Tab>
                               <Tab styleClass="fontColumnl12" text="Теплоэнергия">
                                  <content>
                                     <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
@@ -318,10 +264,64 @@
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
                                                    <columns>
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
-                                                      <TableColumn minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
+                                                      <TableColumn fx:id="ctHistoryHeatingDate" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
+                                                      <TableColumn fx:id="ctHistoryHeatingPeriod" minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
+                                                      <TableColumn fx:id="ctHistoryHeatingSum" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
+                                                      <TableColumn fx:id="ctHistoryHeatingSumPerM" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
+                                                   </columns>
+                                                </TableView>
+                                                <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">
+                                                   <font>
+                                                      <Font name="Book Antiqua" size="22.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="5.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                       </children>
+                                    </VBox>
+                                 </content>
+                              </Tab>
+                              <Tab styleClass="fontColumnl12" text="Газоснабжение">
+                                 <content>
+                                    <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="700.0">
+                                       <children>
+                                          <AnchorPane prefHeight="270.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <children>
+                                                <Label fx:id="labelTarifGas" layoutX="14.0" layoutY="53.0" prefHeight="17.0" prefWidth="222.0" styleClass="fontLabel14" text="Тариф:  сумма  грн./кб.м " AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="55.0" />
+                                                <Label layoutX="16.0" layoutY="22.0" prefHeight="17.0" prefWidth="122.0" styleClass="fontLabel14" text="Период оплаты с " AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="21.0" />
+                                                <DatePicker fx:id="dpStartPayPeriodGas" layoutX="117.0" layoutY="16.0" prefHeight="25.0" prefWidth="120.0" styleClass="fontLabel14" AnchorPane.leftAnchor="137.0" AnchorPane.topAnchor="16.0" />
+                                                <Label layoutX="248.0" layoutY="20.0" prefHeight="17.0" prefWidth="30.0" styleClass="fontLabel14" text="по" AnchorPane.leftAnchor="268.0" AnchorPane.topAnchor="20.0" />
+                                                <DatePicker fx:id="dpEndPayPeriodGas" layoutX="280.0" layoutY="16.0" prefHeight="25.0" prefWidth="120.0" styleClass="fontLabel14" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="16.0" />
+                                                <Label fx:id="labelToUseGas" layoutX="17.0" layoutY="129.0" prefHeight="24.0" prefWidth="232.0" styleClass="fontLabel14" text="Потребленно кол-во кб.м" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="130.0" />
+                                                <Label fx:id="labelSumGas" layoutX="14.0" layoutY="165.0" prefHeight="41.0" prefWidth="321.0" styleClass="styleFontLabel18" text="Сумма к оплате СУММА грн." AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="165.0" />
+                                                <Button fx:id="btnUpdateDbGas" layoutX="14.0" layoutY="215.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" styleClass="fontLabel14" text="Записать в базу" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="215.0" />
+                                                <Label layoutX="23.0" layoutY="97.0" prefHeight="17.0" prefWidth="228.0" styleClass="fontLabel14" text="Прописанно человек в квартире:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
+                                                <ComboBox fx:id="cbCountPeopleGaz" layoutX="241.0" layoutY="95.0" prefHeight="25.0" prefWidth="60.0" styleClass="fontLabel14" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="91.0" />
+                                             </children>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+                                             </VBox.margin>
+                                          </AnchorPane>
+                                          <AnchorPane prefHeight="334.0" prefWidth="680.0" style="-fx-border-color: gray;">
+                                             <children>
+                                                <TableView fx:id="tableHistoryGas" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="650.0" styleClass="fontColumnl12" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+                                                   <columnResizePolicy>
+                                                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                                   </columnResizePolicy>
+                                                   <columns>
+                                                      <TableColumn fx:id="ctHistoryGasDate" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
+                                                      <TableColumn fx:id="ctHistoryGasPeriod" minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
+                                                      <TableColumn fx:id="ctHistoryGasSum" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
+                                                      <TableColumn fx:id="ctHistoryGasSumPerM" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
                                                    </columns>
                                                 </TableView>
                                                 <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">
@@ -366,15 +366,15 @@
                                           </AnchorPane>
                                           <AnchorPane prefHeight="334.0" prefWidth="680.0" style="-fx-border-color: gray;">
                                              <children>
-                                                <TableView fx:id="tableHistoryDwelling" layoutX="14.0" layoutY="14.0" prefHeight="240.0" prefWidth="650.0" styleClass="fontColumnl12" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+                                                <TableView fx:id="tableHistoryDwelling" layoutX="11.0" layoutY="56.0" prefHeight="240.0" prefWidth="650.0" styleClass="fontColumnl12" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="56.0">
                                                    <columnResizePolicy>
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
                                                    <columns>
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
-                                                      <TableColumn minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
+                                                      <TableColumn fx:id="ctHistoryDwellingDate" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
+                                                      <TableColumn fx:id="ctHistoryDwellingPeriod" minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
+                                                      <TableColumn fx:id="ctHistoryDwellingSum" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
+                                                      <TableColumn fx:id="ctHistoryDwellingSumPerM" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
                                                    </columns>
                                                 </TableView>
                                                 <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">
@@ -424,10 +424,10 @@
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
                                                    <columns>
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
-                                                      <TableColumn minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
+                                                      <TableColumn fx:id="ctHistoryElevatorDate" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
+                                                      <TableColumn fx:id="ctHistoryElevatorPeriod" minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
+                                                      <TableColumn fx:id="ctHistoryElevatorSum" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
+                                                      <TableColumn fx:id="ctHistoryElevatorSumPerM" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
                                                    </columns>
                                                 </TableView>
                                                 <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">
@@ -477,10 +477,10 @@
                                                       <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                                    </columnResizePolicy>
                                                    <columns>
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
-                                                      <TableColumn minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
-                                                      <TableColumn minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
+                                                      <TableColumn fx:id="ctHistoryGarbageDate" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Дата платежа" />
+                                                      <TableColumn fx:id="ctHistoryGarbagePeriod" minWidth="120.0" prefWidth="120.0" styleClass="fontColumnl12" text="Период оплаты" />
+                                                      <TableColumn fx:id="ctHistoryGarbageSum" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма (грн.)" />
+                                                      <TableColumn fx:id="ctHistoryGarbageSumPerM" minWidth="50.0" prefWidth="50.0" styleClass="fontColumnl12" text="Сумма за месяц" />
                                                    </columns>
                                                 </TableView>
                                                 <Label layoutX="25.0" layoutY="14.0" prefHeight="32.0" prefWidth="210.0" text="История платежей">

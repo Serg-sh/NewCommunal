@@ -9,12 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
-import ua.serg.impl.CollectionPays;
-import ua.serg.impl.CollectionService;
-import ua.serg.impl.CollectionServiceMetr;
-import ua.serg.impl.CollectionTarifs;
-import ua.serg.objects.Pay;
-import ua.serg.objects.Tarif;
+import ua.serg.impl.*;
+import ua.serg.objects.*;
 import ua.serg.utils.DBUtils;
 import ua.serg.utils.DialogManager;
 
@@ -35,6 +31,7 @@ public class MainController {
             "Квартплата",
             "Лифт",
             "Вывоз мусора");
+
     // Tab Tarifs
     @FXML
     private CustomTextField tfNewTarif;  /*изменить на NumberTextField в Main.fxml тоже*/
@@ -68,6 +65,7 @@ public class MainController {
     private TableColumn<Pay, BigDecimal> columnTableAllSum;
     @FXML
     private TableColumn<Pay, String> columnTableAllComment;
+
     //Tab Calc -> tab El
     @FXML
     private CustomTextField tfNewMetrReadingsEl; /*изменить на NumberTextField в Main.fxml тоже*/
@@ -89,6 +87,7 @@ public class MainController {
     private TableView tableHistoryEl;
     @FXML
     private Button btnUpdateDbEl;
+
     // Tab Calc -> tab Water
     @FXML
     private CustomTextField tfNewMetrReadingsWater; /*изменить на NumberTextField в Main.fxml тоже*/
@@ -108,6 +107,7 @@ public class MainController {
     private TableView tableHistoryWater;
     @FXML
     private Button btnUpdateDbWater;
+
     // Tab Calc -> tab Gas
     @FXML
     private DatePicker dpStartPayPeriodGas;
@@ -125,6 +125,15 @@ public class MainController {
     private TableView tableHistoryGas;
     @FXML
     private Button btnUpdateDbGas;
+    @FXML
+    private TableColumn<Gas, Date> ctHistoryGasDate;
+    @FXML
+    private TableColumn<Gas, String> ctHistoryGasPeriod;
+    @FXML
+    private TableColumn<Gas, BigDecimal> ctHistoryGasSum;
+    @FXML
+    private TableColumn<Gas, BigDecimal> ctHistoryGasSumPerM;
+
     // Tab Calc -> tab Dwelling
     @FXML
     private DatePicker dpStartPayPeriodDwelling;
@@ -140,6 +149,15 @@ public class MainController {
     private TableView tableHistoryDwelling;
     @FXML
     private Button btnUpdateDbDwelling;
+    @FXML
+    private TableColumn<Dwelling, Date> ctHistoryDwellingDate;
+    @FXML
+    private TableColumn<Dwelling, String> ctHistoryDwellingPeriod;
+    @FXML
+    private TableColumn<Dwelling, BigDecimal> ctHistoryDwellingSum;
+    @FXML
+    private TableColumn<Dwelling, BigDecimal> ctHistoryDwellingSumPerM;
+
     // Tab Calc -> tab Elevator
     @FXML
     private DatePicker dpStartPayPeriodElevator;
@@ -155,6 +173,15 @@ public class MainController {
     private TableView tableHistoryElevator;
     @FXML
     private Button btnUpdateDbElevator;
+    @FXML
+    private TableColumn<Elevator, Date> ctHistoryElevatorDate;
+    @FXML
+    private TableColumn<Elevator, String> ctHistoryElevatorPeriod;
+    @FXML
+    private TableColumn<Elevator, BigDecimal> ctHistoryElevatorSum;
+    @FXML
+    private TableColumn<Elevator, BigDecimal> ctHistoryElevatorSumPerM;
+
     // Tab Calc -> tab Garbage
     @FXML
     private DatePicker dpStartPayPeriodGarbage;
@@ -170,6 +197,15 @@ public class MainController {
     private TableView tableHistoryGarbage;
     @FXML
     private Button btnUpdateDbGarbage;
+    @FXML
+    private TableColumn<Garbage, Date> ctHistoryGarbageDate;
+    @FXML
+    private TableColumn<Garbage, String> ctHistoryGarbagePeriod;
+    @FXML
+    private TableColumn<Garbage, BigDecimal> ctHistoryGarbageSum;
+    @FXML
+    private TableColumn<Garbage, BigDecimal> ctHistoryGarbageSumPerM;
+
     // Tab Calc -> tab Heating
     @FXML
     private DatePicker dpStartPayPeriodHeating;
@@ -183,6 +219,15 @@ public class MainController {
     private TableView tableHistoryHeating;
     @FXML
     private Button btnUpdateDbHeating;
+    @FXML
+    private TableColumn<Healting, Date> ctHistoryHeatingDate;
+    @FXML
+    private TableColumn<Healting, String> ctHistoryHeatingPeriod;
+    @FXML
+    private TableColumn<Healting, BigDecimal> ctHistoryHeatingSum;
+    @FXML
+    private TableColumn<Healting, BigDecimal> ctHistoryHeatingSumPerM;
+
 
     private CollectionTarifs listTarif = new CollectionTarifs();
     private CollectionPays listPay = new CollectionPays();
@@ -202,10 +247,40 @@ public class MainController {
         columnTableTarifsTarif.setCellValueFactory(new PropertyValueFactory<Tarif, BigDecimal>("cost"));
         columnTableTarifsDate.setCellValueFactory(new PropertyValueFactory<Tarif, Date>("dateChangeOfTarif"));
 
-//  таблица платежей
+//   таблица платежей
         columnTableAllDate.setCellValueFactory(new PropertyValueFactory<Pay, Date>("dateOfPay"));
         columnTableAllSum.setCellValueFactory(new PropertyValueFactory<Pay, BigDecimal>("sum"));
         columnTableAllComment.setCellValueFactory(new PropertyValueFactory<Pay, String>("comment"));
+
+//   таблица газ
+        ctHistoryGasDate.setCellValueFactory(new PropertyValueFactory<Gas, Date>("datePay"));
+        ctHistoryGasPeriod.setCellValueFactory(new PropertyValueFactory<Gas, String>("period"));
+        ctHistoryGasSum.setCellValueFactory(new PropertyValueFactory<Gas, BigDecimal>("sum"));
+        ctHistoryGasSumPerM.setCellValueFactory(new PropertyValueFactory<Gas, BigDecimal>("sumPerMonth"));
+
+//   Таблица отопление
+        ctHistoryHeatingDate.setCellValueFactory(new PropertyValueFactory<Healting, Date>("datePay"));
+        ctHistoryHeatingPeriod.setCellValueFactory(new PropertyValueFactory<Healting, String>("period"));
+        ctHistoryHeatingSum.setCellValueFactory(new PropertyValueFactory<Healting, BigDecimal>("sum"));
+        ctHistoryHeatingSumPerM.setCellValueFactory(new PropertyValueFactory<Healting, BigDecimal>("sumPerMonth"));
+
+//        Таблица квартплата
+        ctHistoryDwellingDate.setCellValueFactory(new PropertyValueFactory<Dwelling, Date>("datePay"));
+        ctHistoryDwellingPeriod.setCellValueFactory(new PropertyValueFactory<Dwelling, String>("period"));
+        ctHistoryDwellingSum.setCellValueFactory(new PropertyValueFactory<Dwelling, BigDecimal>("sum"));
+        ctHistoryDwellingSumPerM.setCellValueFactory(new PropertyValueFactory<Dwelling, BigDecimal>("sumPerMonth"));
+
+//        Таблица лифт
+        ctHistoryElevatorDate.setCellValueFactory(new PropertyValueFactory<Elevator, Date>("datePay"));
+        ctHistoryElevatorPeriod.setCellValueFactory(new PropertyValueFactory<Elevator, String>("period"));
+        ctHistoryElevatorSum.setCellValueFactory(new PropertyValueFactory<Elevator, BigDecimal>("sum"));
+        ctHistoryElevatorSumPerM.setCellValueFactory(new PropertyValueFactory<Elevator, BigDecimal>("sumPerMonth"));
+
+//        Таблица мусор
+        ctHistoryGarbageDate.setCellValueFactory(new PropertyValueFactory<Garbage, Date>("datePay"));
+        ctHistoryGarbagePeriod.setCellValueFactory(new PropertyValueFactory<Garbage, String>("period"));
+        ctHistoryGarbageSum.setCellValueFactory(new PropertyValueFactory<Garbage, BigDecimal>("sum"));
+        ctHistoryGarbageSumPerM.setCellValueFactory(new PropertyValueFactory<Garbage, BigDecimal>("sumPerMonth"));
 
 
         fillData();
@@ -308,7 +383,32 @@ public class MainController {
         listPay.add(DBUtils.getResultsListPay());
         tableAll.setItems(listPay.getPaysList());
 
+        listGas.clear();
+        listGas.add(DBUtils.getResultsListService("SELECT * FROM Gas", new Gas()));
+        tableHistoryGas.setItems(listGas.getServiceList());
+
+        listHeating.clear();
+        listHeating.add(DBUtils.getResultsListService("SELECT * FROM Healting", new Healting()));
+        tableHistoryHeating.setItems(listHeating.getServiceList());
+
+        listDwelling.clear();
+        listDwelling.add(DBUtils.getResultsListService("SELECT * FROM Dwelling", new Dwelling()));
+        tableHistoryDwelling.setItems(listDwelling.getServiceList());
+
+        listElevator.clear();
+        listElevator.add(DBUtils.getResultsListService("SELECT * FROM Elevator", new Elevator()));
+        tableHistoryElevator.setItems(listElevator.getServiceList());
+
+        listGarbage.clear();
+        listGarbage.add(DBUtils.getResultsListService("SELECT * FROM Garbage", new Garbage()));
+        tableHistoryGarbage.setItems(listGarbage.getServiceList());
+
 //        DBUtils.closeConnection();
 
+    }
+
+    public void btnActionElectric(ActionEvent actionEvent) {
+        AbstrsctPay ap = new Electric();
+        System.out.println(ap instanceof AbstrsctPay);
     }
 }
