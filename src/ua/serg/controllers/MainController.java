@@ -7,16 +7,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import ua.serg.impl.*;
 import ua.serg.objects.*;
+import ua.serg.utils.CalcUtils;
 import ua.serg.utils.DBUtils;
 import ua.serg.utils.DialogManager;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Date;
 
 public class MainController {
@@ -266,6 +270,8 @@ public class MainController {
 
     @FXML
     private void initialize() {
+
+
 //  таблица тарифов
         columnTableTarifsName.setCellValueFactory(new PropertyValueFactory<Tarif, String>("name"));
         columnTableTarifsTarif.setCellValueFactory(new PropertyValueFactory<Tarif, BigDecimal>("cost"));
@@ -414,6 +420,10 @@ public class MainController {
 
     private void fillData() {
         DBUtils.openConnection();
+        tfOldMetrReadingsEl.setText(String.valueOf(DBUtils.getStartMetrReadings("Electric")));
+        tfOldMetrReadingsWater.setText(String.valueOf(DBUtils.getStartMetrReadings("Wather")));
+
+
 
         listTarif.clear();
         listTarif.add(DBUtils.getResultsListTarif());
@@ -457,6 +467,50 @@ public class MainController {
 
     public void btnActionElectric(ActionEvent actionEvent) {
 
-        System.out.println(DBUtils.getStartMetrReadings("Wather"));
+
+        System.out.println(Period.between(dpStartPayPeriodEl.getValue(), dpEndPayPeriodEl.getValue()).getMonths()+1);
+
+
+
+
+
+    }
+//    Обработка онажатия энтер - электричество расчет
+    public void enterPassedElectric(KeyEvent event) {
+        LocalDate startDate, endDate;
+        Integer toUse, startMetr, endMetr;
+
+        if (event.getCode() == KeyCode.ENTER){
+            try {
+                if (dpEndPayPeriodEl.getValue() == null || dpStartPayPeriodEl.getValue() == null) {
+                    DialogManager.showInfoDialog("Внимание!", "Укажите корректные даты");
+                    return;
+                }
+                if (dpStartPayPeriodEl.getValue().isAfter(dpEndPayPeriodEl.getValue())) {
+                    DialogManager.showErrorDialog("Неверные даты!", "Конечная дата меньше начальной!");
+                    return;
+                }
+                startDate = dpEndPayPeriodEl.getValue();
+                endDate = dpStartPayPeriodEl.getValue();
+                startMetr = Integer.parseInt(tfOldMetrReadingsEl.getText());
+                endMetr = Integer.parseInt(tfNewMetrReadingsEl.getText());
+                toUse = endMetr - startMetr;
+                if (toUse < 0) {
+                    DialogManager.showErrorDialog("Неверные показания счетчика!", "Введите корректные показания счетчика.");
+                    return;
+                }
+                labelToUseEl.setText("Потребленно " + toUse + " кВатт");
+
+                CalcUtils.calcElectric(startDate, endDate, startMetr, endMetr);
+
+
+
+
+
+            } catch (NumberFormatException e){
+                DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+            }
+        }
+
     }
 }

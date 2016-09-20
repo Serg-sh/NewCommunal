@@ -9,17 +9,16 @@ import java.math.BigDecimal;
  */
 public class Wather extends AbstractPayWithMetrReadings {
 
-    private Integer metrReadings;
-    private Integer toUse;
+
 
 
     @Override
     public BigDecimal getSum() {
-        return null;
+        return sum;
     }
 
     @Override
     public BigDecimal getSumPerMonth() {
-        return null;
+        return sumPerMonth;
     }
 }
