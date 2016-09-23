@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -174,6 +175,8 @@ public class MainController {
     @FXML
     private Label labelSumDwelling;
     @FXML
+    private CustomTextField tfAreaRoom; /*изменить на NumberTextField в Main.fxml тоже*/
+    @FXML
     private TableView tableHistoryDwelling;
     @FXML
     private Button btnUpdateDbDwelling;
@@ -273,60 +276,60 @@ public class MainController {
 
 
 //  таблица тарифов
-        columnTableTarifsName.setCellValueFactory(new PropertyValueFactory<Tarif, String>("name"));
-        columnTableTarifsTarif.setCellValueFactory(new PropertyValueFactory<Tarif, BigDecimal>("cost"));
-        columnTableTarifsDate.setCellValueFactory(new PropertyValueFactory<Tarif, Date>("dateChangeOfTarif"));
+        columnTableTarifsName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnTableTarifsTarif.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        columnTableTarifsDate.setCellValueFactory(new PropertyValueFactory<>("dateChangeOfTarif"));
 
 //   таблица платежей
-        columnTableAllDate.setCellValueFactory(new PropertyValueFactory<Pay, Date>("dateOfPay"));
-        columnTableAllSum.setCellValueFactory(new PropertyValueFactory<Pay, BigDecimal>("sum"));
-        columnTableAllComment.setCellValueFactory(new PropertyValueFactory<Pay, String>("comment"));
+        columnTableAllDate.setCellValueFactory(new PropertyValueFactory<>("dateOfPay"));
+        columnTableAllSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        columnTableAllComment.setCellValueFactory(new PropertyValueFactory<>("comment"));
 
 //   таблица газ
-        ctHistoryGasDate.setCellValueFactory(new PropertyValueFactory<Gas, Date>("datePay"));
-        ctHistoryGasPeriod.setCellValueFactory(new PropertyValueFactory<Gas, String>("period"));
-        ctHistoryGasSum.setCellValueFactory(new PropertyValueFactory<Gas, BigDecimal>("sum"));
-        ctHistoryGasSumPerM.setCellValueFactory(new PropertyValueFactory<Gas, BigDecimal>("sumPerMonth"));
+        ctHistoryGasDate.setCellValueFactory(new PropertyValueFactory<>("datePay"));
+        ctHistoryGasPeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
+        ctHistoryGasSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        ctHistoryGasSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
 //   Таблица отопление
-        ctHistoryHeatingDate.setCellValueFactory(new PropertyValueFactory<Healting, Date>("datePay"));
-        ctHistoryHeatingPeriod.setCellValueFactory(new PropertyValueFactory<Healting, String>("period"));
-        ctHistoryHeatingSum.setCellValueFactory(new PropertyValueFactory<Healting, BigDecimal>("sum"));
-        ctHistoryHeatingSumPerM.setCellValueFactory(new PropertyValueFactory<Healting, BigDecimal>("sumPerMonth"));
+        ctHistoryHeatingDate.setCellValueFactory(new PropertyValueFactory<>("datePay"));
+        ctHistoryHeatingPeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
+        ctHistoryHeatingSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        ctHistoryHeatingSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
 //        Таблица квартплата
-        ctHistoryDwellingDate.setCellValueFactory(new PropertyValueFactory<Dwelling, Date>("datePay"));
-        ctHistoryDwellingPeriod.setCellValueFactory(new PropertyValueFactory<Dwelling, String>("period"));
-        ctHistoryDwellingSum.setCellValueFactory(new PropertyValueFactory<Dwelling, BigDecimal>("sum"));
-        ctHistoryDwellingSumPerM.setCellValueFactory(new PropertyValueFactory<Dwelling, BigDecimal>("sumPerMonth"));
+        ctHistoryDwellingDate.setCellValueFactory(new PropertyValueFactory<>("datePay"));
+        ctHistoryDwellingPeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
+        ctHistoryDwellingSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        ctHistoryDwellingSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
 //        Таблица лифт
-        ctHistoryElevatorDate.setCellValueFactory(new PropertyValueFactory<Elevator, Date>("datePay"));
-        ctHistoryElevatorPeriod.setCellValueFactory(new PropertyValueFactory<Elevator, String>("period"));
-        ctHistoryElevatorSum.setCellValueFactory(new PropertyValueFactory<Elevator, BigDecimal>("sum"));
-        ctHistoryElevatorSumPerM.setCellValueFactory(new PropertyValueFactory<Elevator, BigDecimal>("sumPerMonth"));
+        ctHistoryElevatorDate.setCellValueFactory(new PropertyValueFactory<>("datePay"));
+        ctHistoryElevatorPeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
+        ctHistoryElevatorSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        ctHistoryElevatorSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
 //        Таблица мусор
-        ctHistoryGarbageDate.setCellValueFactory(new PropertyValueFactory<Garbage, Date>("datePay"));
-        ctHistoryGarbagePeriod.setCellValueFactory(new PropertyValueFactory<Garbage, String>("period"));
-        ctHistoryGarbageSum.setCellValueFactory(new PropertyValueFactory<Garbage, BigDecimal>("sum"));
-        ctHistoryGarbageSumPerM.setCellValueFactory(new PropertyValueFactory<Garbage, BigDecimal>("sumPerMonth"));
+        ctHistoryGarbageDate.setCellValueFactory(new PropertyValueFactory<>("datePay"));
+        ctHistoryGarbagePeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
+        ctHistoryGarbageSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        ctHistoryGarbageSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
 //        Таблица Электроэнергия
-        ctHistoryElDate.setCellValueFactory(new PropertyValueFactory<Electric, Date>("datePay"));
-        ctHistoryElPeriod.setCellValueFactory(new PropertyValueFactory<Electric, String>("period"));
-        ctHistoryElMetr.setCellValueFactory(new PropertyValueFactory<Electric, Integer>("metrReadingsEnd"));
-        ctHistoryElToUse.setCellValueFactory(new PropertyValueFactory<Electric, Integer>("toUse"));
-        ctHistoryElSum.setCellValueFactory(new PropertyValueFactory<Electric, BigDecimal>("sum"));
-        ctHistoryElSumPerM.setCellValueFactory(new PropertyValueFactory<Electric, BigDecimal>("sumPerMonth"));
+        ctHistoryElDate.setCellValueFactory(new PropertyValueFactory<>("datePay"));
+        ctHistoryElPeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
+        ctHistoryElMetr.setCellValueFactory(new PropertyValueFactory<>("metrReadingsEnd"));
+        ctHistoryElToUse.setCellValueFactory(new PropertyValueFactory<>("toUse"));
+        ctHistoryElSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        ctHistoryElSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
 //        Таблица вода
-        ctHistoryWaterDate.setCellValueFactory(new PropertyValueFactory<Wather, Date>("datePay"));
-        ctHistoryWaterPeriod.setCellValueFactory(new PropertyValueFactory<Wather, String>("period"));
-        ctHistoryWaterMetr.setCellValueFactory(new PropertyValueFactory<Wather, Integer>("metrReadingsEnd"));
-        ctHistoryWaterToUse.setCellValueFactory(new PropertyValueFactory<Wather, Integer>("toUse"));
-        ctHistoryWaterSum.setCellValueFactory(new PropertyValueFactory<Wather, BigDecimal>("sum"));
-        ctHistoryWaterSumPerM.setCellValueFactory(new PropertyValueFactory<Wather, BigDecimal>("sumPerMonth"));
+        ctHistoryWaterDate.setCellValueFactory(new PropertyValueFactory<>("datePay"));
+        ctHistoryWaterPeriod.setCellValueFactory(new PropertyValueFactory<>("period"));
+        ctHistoryWaterMetr.setCellValueFactory(new PropertyValueFactory<>("metrReadingsEnd"));
+        ctHistoryWaterToUse.setCellValueFactory(new PropertyValueFactory<>("toUse"));
+        ctHistoryWaterSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
+        ctHistoryWaterSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
 
         fillData();
@@ -341,6 +344,7 @@ public class MainController {
         setupClearButtonField(tfOldMetrReadingsEl);
         setupClearButtonField(tfOldMetrReadingsWater);
         setupClearButtonField(tfNewMetrReadingsWater);
+        setupClearButtonField(tfAreaRoom);
 
     }
 
@@ -461,9 +465,212 @@ public class MainController {
         listWater.add(DBUtils.getResultsListServiceMetr("SELECT * FROM Wather ORDER BY date DESC", new Wather()));
         tableHistoryWater.setItems(listWater.getServiceList());
 
+        setLabelTarifs();
+
 //        DBUtils.closeConnection();
 
     }
+
+    private void setLabelTarifs() {
+        labelTarifBefore100El.setText("Тариф до 100 кВатт: " + DBUtils.getTarifLastDate("Электроэнергия до 100 кВатт") + " грн.");
+        labelTarifBefore600El.setText("Тариф до 600 кВатт: " + DBUtils.getTarifLastDate("Электроэнергия до 600 кВатт") + " грн.");
+        labelTarifWater.setText("Тариф: " + DBUtils.getTarifLastDate("Водоснабжение") + "  грн./кб.м.");
+        labelTarifGas.setText("Тариф: " + DBUtils.getTarifLastDate("Газоснабжение") + "  грн./кб.м.");
+        labelTarifDwelling.setText("Тариф: " + DBUtils.getTarifLastDate("Квартплата") + " грн./кв.м.");
+        labelTarifElevator.setText("Тариф: " + DBUtils.getTarifLastDate("Лифт") + " грн./чел.");
+        labelTarifGarbage.setText("Тариф: " + DBUtils.getTarifLastDate("Вывоз мусора") + " грн./чел.");
+    }
+
+    private boolean equalsDate(LocalDate startDate, LocalDate endDate) {
+        boolean res = false;
+        if (endDate == null || startDate == null) {
+            DialogManager.showInfoDialog("Внимание!", "Укажите корректные даты");
+            res = true;
+        }
+        if (startDate.isAfter(endDate)) {
+            DialogManager.showErrorDialog("Неверные даты!", "Конечная дата меньше начальной!");
+            res = true;
+        }
+        return res;
+    }
+
+    private boolean equals0toUse(Integer toUse) {
+        if (toUse < 0) {
+            DialogManager.showErrorDialog("Неверные показания счетчика!", "Введите корректные показания счетчика.");
+            return true;
+        }
+        return false;
+    }
+
+//    Обработка онажатия энтер - электричество расчет
+    public void enterPassedElectric(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER){
+            actionElectric();
+        }
+    }
+    public void actPayPeriodEl (ActionEvent actionEvent){
+        if (dpEndPayPeriodWater.getValue() == null || dpStartPayPeriodWater.getValue() == null){
+
+        }else {
+            actionElectric();
+        }
+    }
+    private void actionElectric() {
+        LocalDate startDate= dpStartPayPeriodEl.getValue();
+        LocalDate endDate = dpEndPayPeriodEl.getValue();
+        Integer startMetr;
+        Integer endMetr;
+        Integer toUse;
+        try {
+            if (equalsDate(startDate, endDate)){
+                dpEndPayPeriodEl.setValue(LocalDate.now());
+                return;
+            }
+            startMetr = Integer.parseInt(tfOldMetrReadingsEl.getText());
+            endMetr = Integer.parseInt(tfNewMetrReadingsEl.getText());
+            toUse = endMetr - startMetr;
+            if (equals0toUse(toUse)) return;
+            labelToUseEl.setText("Потребленно " + toUse + " кВатт");
+            labelSumEl.setText("Сумма к оплате " + CalcUtils.calcElectric(startDate, endDate, startMetr, endMetr) + " грн.");
+
+        } catch (NumberFormatException e){
+//            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+        }
+    }
+
+    public void enterPassedWater(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER){
+            actionWater();
+        }
+    }
+    public void actPayPeriodWater (ActionEvent actionEvent){
+        if (dpEndPayPeriodWater.getValue() == null || dpStartPayPeriodWater.getValue() == null){
+
+        }else {
+            actionWater();
+        }
+    }
+    private void actionWater() {
+        LocalDate startDate = dpStartPayPeriodWater.getValue();
+        LocalDate endDate = dpEndPayPeriodWater.getValue();
+        Integer startMetr;
+        Integer endMetr;
+        Integer toUse;
+        try {
+            if (equalsDate(startDate, endDate)){
+                dpEndPayPeriodWater.setValue(LocalDate.now());
+                return;
+            }
+            startMetr = Integer.parseInt(tfOldMetrReadingsWater.getText());
+            endMetr = Integer.parseInt(tfNewMetrReadingsWater.getText());
+            toUse = endMetr - startMetr;
+            if (equals0toUse(toUse)) return;
+            labelToUseWater.setText("Потребленно " + toUse + " кб.м");
+            labelSumWater.setText("Сумма к оплате " + CalcUtils.calcWater(startMetr, endMetr) + " грн.");
+
+        } catch (NumberFormatException e){
+//            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+        }
+    }
+
+    public void enterPassedDwelling(KeyEvent event) {
+
+        if (event.getCode() == KeyCode.ENTER){
+            actionDwelling();
+        }
+    }
+    public void actCountPeopleDwelling(ActionEvent actionEvent) {
+        actionDwelling();
+    }
+    private void actionDwelling() {
+        LocalDate startDate = dpStartPayPeriodDwelling.getValue();
+        LocalDate endDate = dpEndPayPeriodDwelling.getValue();
+        try {
+            if (equalsDate(startDate, endDate)){
+                dpEndPayPeriodDwelling.setValue(LocalDate.now());
+                return;
+            }
+            Integer countPeople = (Integer) cbCountPeopleDwelling.getValue();
+            Double area = new Double(tfAreaRoom.getText());
+            labelSumDwelling.setText("Сумма к оплате " + CalcUtils.calcDwelling(startDate, endDate, countPeople, area) + " грн.");
+        } catch (NumberFormatException e){
+//            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+        }
+    }
+
+    public void enterPassedGas(KeyEvent event) {
+
+        if (event.getCode() == KeyCode.ENTER){
+            actionGas();
+        }
+    }
+    public void actCountPeopleGas(ActionEvent actionEvent) {
+        actionGas();
+    }
+    private void actionGas() {
+        LocalDate startDate = dpStartPayPeriodGas.getValue();
+        LocalDate endDate = dpEndPayPeriodGas.getValue();
+        try {
+            if (equalsDate(startDate, endDate)){
+                dpEndPayPeriodGas.setValue(LocalDate.now());
+                return;
+            }
+            Integer countPeople = (Integer) cbCountPeopleGaz.getValue();
+            labelSumGas.setText("Сумма к оплате " + CalcUtils.calcGas(startDate, endDate, countPeople) + " грн.");
+        } catch (NumberFormatException e){
+//            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+        }
+    }
+
+    public void enterPassedElevator(KeyEvent event) {
+
+        if (event.getCode() == KeyCode.ENTER){
+            actionElevator();
+        }
+    }
+    public void actCountPeopleElevator(ActionEvent actionEvent) {
+        actionElevator();
+    }
+    private void actionElevator() {
+        LocalDate startDate = dpStartPayPeriodElevator.getValue();
+        LocalDate endDate = dpEndPayPeriodElevator.getValue();
+        try {
+            if (equalsDate(startDate, endDate)){
+                dpEndPayPeriodElevator.setValue(LocalDate.now());
+                return;
+            }
+            Integer countPeople = (Integer) cbCountPeopleElevator.getValue();
+            labelSumElevator.setText("Сумма к оплате " + CalcUtils.calcElevator(startDate, endDate, countPeople) + " грн.");
+        } catch (NumberFormatException e){
+//            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+        }
+    }
+
+    public void enterPassedGarbage(KeyEvent event) {
+
+        if (event.getCode() == KeyCode.ENTER){
+            actionGarbage();
+        }
+    }
+    public void actCountPeopleGarbage(ActionEvent actionEvent) {
+        actionGarbage();
+    }
+    private void actionGarbage() {
+        LocalDate startDate = dpStartPayPeriodGarbage.getValue();
+        LocalDate endDate = dpEndPayPeriodGarbage.getValue();
+        try {
+            if (equalsDate(startDate, endDate)){
+                dpEndPayPeriodGarbage.setValue(LocalDate.now());
+                return;
+            }
+            Integer countPeople = (Integer) cbCountPeopleGarbage.getValue();
+            labelSumGarbage.setText("Сумма к оплате " + CalcUtils.calcGarbage(startDate, endDate, countPeople) + " грн.");
+        } catch (NumberFormatException e){
+//            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+        }
+    }
+
+
 
     public void btnActionElectric(ActionEvent actionEvent) {
 
@@ -475,42 +682,7 @@ public class MainController {
 
 
     }
-//    Обработка онажатия энтер - электричество расчет
-    public void enterPassedElectric(KeyEvent event) {
-        LocalDate startDate, endDate;
-        Integer toUse, startMetr, endMetr;
-
-        if (event.getCode() == KeyCode.ENTER){
-            try {
-                if (dpEndPayPeriodEl.getValue() == null || dpStartPayPeriodEl.getValue() == null) {
-                    DialogManager.showInfoDialog("Внимание!", "Укажите корректные даты");
-                    return;
-                }
-                if (dpStartPayPeriodEl.getValue().isAfter(dpEndPayPeriodEl.getValue())) {
-                    DialogManager.showErrorDialog("Неверные даты!", "Конечная дата меньше начальной!");
-                    return;
-                }
-                startDate = dpEndPayPeriodEl.getValue();
-                endDate = dpStartPayPeriodEl.getValue();
-                startMetr = Integer.parseInt(tfOldMetrReadingsEl.getText());
-                endMetr = Integer.parseInt(tfNewMetrReadingsEl.getText());
-                toUse = endMetr - startMetr;
-                if (toUse < 0) {
-                    DialogManager.showErrorDialog("Неверные показания счетчика!", "Введите корректные показания счетчика.");
-                    return;
-                }
-                labelToUseEl.setText("Потребленно " + toUse + " кВатт");
-
-                CalcUtils.calcElectric(startDate, endDate, startMetr, endMetr);
 
 
 
-
-
-            } catch (NumberFormatException e){
-                DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
-            }
-        }
-
-    }
 }

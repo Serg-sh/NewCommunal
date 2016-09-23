@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import ua.serg.impl.AbstrsctPay;
 import ua.serg.objects.*;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.logging.Level;
@@ -227,6 +228,25 @@ public class DBUtils {
         closeStatements(statement, rs);
 
         return startMetrReadings;
+    }
+
+    public static BigDecimal getTarifLastDate (String nameOfTarif){
+        BigDecimal tarifLastDate = new BigDecimal(0);
+        Statement statement = null;
+        ResultSet rs = null;
+        String db = "View_tarif_lastDate";
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery("SELECT PRICE FROM " + db + " WHERE NAME=" + "'" + nameOfTarif + "'");
+            tarifLastDate = rs.getBigDecimal("PRICE");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+
+        return tarifLastDate;
     }
 }
 

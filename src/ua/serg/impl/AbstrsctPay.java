@@ -38,8 +38,6 @@ public abstract class AbstrsctPay implements Payable {
         this.period = period;
     }
 
-
-
     public void setSum(BigDecimal sum) {
         this.sum = sum.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
