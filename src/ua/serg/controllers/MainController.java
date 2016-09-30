@@ -674,15 +674,70 @@ public class MainController {
 
     public void btnActionElectric(ActionEvent actionEvent) {
 
+        try {
+            LocalDate startDate = dpStartPayPeriodEl.getValue();
+            LocalDate endDate = dpEndPayPeriodEl.getValue();
+            String period = startDate + " - " + endDate;
+            LocalDate dateOfPay = LocalDate.now();
+            Integer startReadings = Integer.parseInt(tfOldMetrReadingsEl.getText());
+            Integer endReadings = Integer.parseInt(tfNewMetrReadingsEl.getText());
+            Integer toUse = endReadings - startReadings;
+            BigDecimal sum = CalcUtils.calcElectric(startDate, endDate, startReadings, endReadings);
+            int countMonth = Period.between(startDate, endDate).getMonths() + 1;
+            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
 
-        System.out.println(Period.between(dpStartPayPeriodEl.getValue(), dpEndPayPeriodEl.getValue()).getMonths()+1);
+            Electric electric = new Electric();
+            electric.setDatePay(dateOfPay);
+            electric.setPeriod(period);
+            electric.setMetrReadingsEnd(endReadings);
+            electric.setToUse(toUse);
+            electric.setSum(sum);
+            electric.setSumPerMonth(sumPerMonth);
+
+            String sqlQuery = "INSERT INTO Electric (date, period, metr_readings, to_use, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + "," + endReadings + "," + toUse + "," + sum + "," + sumPerMonth + ")";
 
 
+            DBUtils.updateDB(sqlQuery);
+            listElectric.add(0, electric);
 
-
-
+        } catch (NumberFormatException e){
+            DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
+            return;
+        }
     }
+    public void btnActionWater(ActionEvent actionEvent) {
+
+        try {
+            LocalDate startDate = dpStartPayPeriodWater.getValue();
+            LocalDate endDate = dpEndPayPeriodWater.getValue();
+            String period = startDate + " - " + endDate;
+            LocalDate dateOfPay = LocalDate.now();
+            Integer startReadings = Integer.parseInt(tfOldMetrReadingsWater.getText());
+            Integer endReadings = Integer.parseInt(tfNewMetrReadingsWater.getText());
+            Integer toUse = endReadings - startReadings;
+            BigDecimal sum = CalcUtils.calcWater(startReadings, endReadings);
+            int countMonth = Period.between(startDate, endDate).getMonths() + 1;
+            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+
+            Wather water = new Wather();
+            water.setDatePay(dateOfPay);
+            water.setPeriod(period);
+            water.setMetrReadingsEnd(endReadings);
+            water.setToUse(toUse);
+            water.setSum(sum);
+            water.setSumPerMonth(sumPerMonth);
+
+            String sqlQuery = "INSERT INTO Wather (date, period, metr_readings, to_use, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + "," + endReadings + "," + toUse + "," + sum + "," + sumPerMonth + ")";
 
 
+            DBUtils.updateDB(sqlQuery);
+            listWater.add(0, water);
 
+        } catch (NumberFormatException e){
+            DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
+            return;
+        }
+    }
 }

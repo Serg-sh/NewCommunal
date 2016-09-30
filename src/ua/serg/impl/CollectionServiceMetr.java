@@ -22,6 +22,9 @@ public class CollectionServiceMetr implements InterfaceMyCollectionServiceMetr {
     public void add(ObservableList<AbstractPayWithMetrReadings> list) {
         serviceList.addAll(list);
     }
+    public void add(int index, AbstractPayWithMetrReadings service) {
+        serviceList.add(index, service);
+    }
 
     @Override
     public void delete(AbstractPayWithMetrReadings service) {
