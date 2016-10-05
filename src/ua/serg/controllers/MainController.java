@@ -427,8 +427,6 @@ public class MainController {
         tfOldMetrReadingsEl.setText(String.valueOf(DBUtils.getStartMetrReadings("Electric")));
         tfOldMetrReadingsWater.setText(String.valueOf(DBUtils.getStartMetrReadings("Wather")));
 
-
-
         listTarif.clear();
         listTarif.add(DBUtils.getResultsListTarif());
         tableTarifs.setItems(listTarif.getTarifsList());
@@ -734,6 +732,123 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listWater.add(0, water);
+
+        } catch (NumberFormatException e){
+            DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
+            return;
+        }
+    }
+    public void btnActionGas(ActionEvent actionEvent) {
+
+        try {
+            LocalDate startDate = dpStartPayPeriodGas.getValue();
+            LocalDate endDate = dpEndPayPeriodGas.getValue();
+            String period = startDate + " - " + endDate;
+            LocalDate dateOfPay = LocalDate.now();
+            Integer countPeople =(Integer) cbCountPeopleGaz.getValue();
+            BigDecimal sum = CalcUtils.calcGas(startDate,endDate, countPeople);
+            int countMonth = Period.between(startDate, endDate).getMonths() + 1;
+            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+
+            Gas gas = new Gas();
+            gas.setDatePay(dateOfPay);
+            gas.setPeriod(period);
+            gas.setSum(sum);
+            gas.setSumPerMonth(sumPerMonth);
+            String sqlQuery = "INSERT INTO Gas (date, period, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + ","  + sum + "," + sumPerMonth + ")";
+
+
+            DBUtils.updateDB(sqlQuery);
+            listGas.add(0, gas);
+
+        } catch (NumberFormatException e){
+            DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
+            return;
+        }
+    }
+
+    public void btnActionElevator(ActionEvent actionEvent) {
+
+        try {
+            LocalDate startDate = dpStartPayPeriodElevator.getValue();
+            LocalDate endDate = dpEndPayPeriodElevator.getValue();
+            String period = startDate + " - " + endDate;
+            LocalDate dateOfPay = LocalDate.now();
+            Integer countPeople =(Integer) cbCountPeopleElevator.getValue();
+            BigDecimal sum = CalcUtils.calcElevator(startDate,endDate, countPeople);
+            int countMonth = Period.between(startDate, endDate).getMonths() + 1;
+            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+
+            Elevator elevator = new Elevator();
+            elevator.setDatePay(dateOfPay);
+            elevator.setPeriod(period);
+            elevator.setSum(sum);
+            elevator.setSumPerMonth(sumPerMonth);
+            String sqlQuery = "INSERT INTO Elevator (date, period, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + ","  + sum + "," + sumPerMonth + ")";
+
+
+            DBUtils.updateDB(sqlQuery);
+            listElevator.add(0, elevator);
+
+        } catch (NumberFormatException e){
+            DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
+            return;
+        }
+    }
+    public void btnActionGarbage(ActionEvent actionEvent) {
+
+        try {
+            LocalDate startDate = dpStartPayPeriodGarbage.getValue();
+            LocalDate endDate = dpEndPayPeriodGarbage.getValue();
+            String period = startDate + " - " + endDate;
+            LocalDate dateOfPay = LocalDate.now();
+            Integer countPeople =(Integer) cbCountPeopleGarbage.getValue();
+            BigDecimal sum = CalcUtils.calcGarbage(startDate,endDate, countPeople);
+            int countMonth = Period.between(startDate, endDate).getMonths() + 1;
+            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+
+            Garbage garbage = new Garbage();
+            garbage.setDatePay(dateOfPay);
+            garbage.setPeriod(period);
+            garbage.setSum(sum);
+            garbage.setSumPerMonth(sumPerMonth);
+            String sqlQuery = "INSERT INTO Garbage (date, period, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + ","  + sum + "," + sumPerMonth + ")";
+
+
+            DBUtils.updateDB(sqlQuery);
+            listGarbage.add(0, garbage);
+
+        } catch (NumberFormatException e){
+            DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
+            return;
+        }
+    }
+    public void btnActionDwelling(ActionEvent actionEvent) {
+
+        try {
+            LocalDate startDate = dpStartPayPeriodDwelling.getValue();
+            LocalDate endDate = dpEndPayPeriodDwelling.getValue();
+            String period = startDate + " - " + endDate;
+            LocalDate dateOfPay = LocalDate.now();
+            Integer countPeople =(Integer) cbCountPeopleDwelling.getValue();
+            Double area = Double.parseDouble(tfAreaRoom.getText());
+            BigDecimal sum = CalcUtils.calcDwelling(startDate,endDate, countPeople, area);
+            int countMonth = Period.between(startDate, endDate).getMonths() + 1;
+            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+
+            Dwelling dwelling = new Dwelling();
+            dwelling.setDatePay(dateOfPay);
+            dwelling.setPeriod(period);
+            dwelling.setSum(sum);
+            dwelling.setSumPerMonth(sumPerMonth);
+            String sqlQuery = "INSERT INTO Dwelling (date, period, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + ","  + sum + "," + sumPerMonth + ")";
+
+            DBUtils.updateDB(sqlQuery);
+            listDwelling.add(0, dwelling);
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");

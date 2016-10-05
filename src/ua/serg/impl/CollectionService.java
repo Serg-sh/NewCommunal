@@ -21,6 +21,9 @@ public class CollectionService implements InterfaceMyCollectionService {
     public void add(ObservableList<AbstrsctPay> listService) {
         serviceList.addAll(listService);
     }
+    public void add(int index, AbstrsctPay service) {
+        serviceList.add(index, service);
+    }
 
     @Override
     public void delete(AbstrsctPay service) {
