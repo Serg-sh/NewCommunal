@@ -1,5 +1,8 @@
 package ua.serg.utils;
 
+import javafx.collections.ObservableList;
+import ua.serg.objects.MonthOfHeating;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
@@ -72,5 +75,17 @@ public class CalcUtils {
         int countMonth = Period.between(startDate, endDate).getMonths()+1;
         sum = DBUtils.getTarifLastDate("Вывоз мусора").multiply(BigDecimal.valueOf(new Double(countPeople))).multiply(BigDecimal.valueOf(new Double(countMonth)));
         return sum.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public static BigDecimal calcHeatingSingleMonth(BigDecimal tarif, Double area) {
+        return tarif.multiply(BigDecimal.valueOf(area)).setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    public static BigDecimal calcHeatingAllMonth(ObservableList<MonthOfHeating> tmpHeating) {
+        BigDecimal sum = new BigDecimal(0);
+        for (MonthOfHeating monthOfHeating : tmpHeating){
+            sum = sum.add(monthOfHeating.getSum());
+        }
+        return sum;
     }
 }

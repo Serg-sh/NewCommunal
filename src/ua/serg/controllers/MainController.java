@@ -21,8 +21,13 @@ import ua.serg.utils.DialogManager;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.Period;
+import java.time.format.TextStyle;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class MainController {
 
@@ -36,6 +41,7 @@ public class MainController {
             "Квартплата",
             "Лифт",
             "Вывоз мусора");
+
 
     // Tab Tarifs
     @FXML
@@ -258,6 +264,14 @@ public class MainController {
     private TableColumn<Healting, BigDecimal> ctHistoryHeatingSum;
     @FXML
     private TableColumn<Healting, BigDecimal> ctHistoryHeatingSumPerM;
+    @FXML
+    private TableColumn<MonthOfHeating, String> hMonth;
+    @FXML
+    private TableColumn<MonthOfHeating, BigDecimal> hTarif;
+    @FXML
+    private TableColumn<MonthOfHeating, BigDecimal> hSum;
+    @FXML
+    private CustomTextField tfHAreaRoom; /*изменить на NumberTextField в Main.fxml тоже*/
 
 
     private CollectionTarifs listTarif = new CollectionTarifs();
@@ -274,6 +288,9 @@ public class MainController {
     @FXML
     private void initialize() {
 
+        hMonth.setCellValueFactory(new PropertyValueFactory<>("name"));
+        hTarif.setCellValueFactory(new PropertyValueFactory<>("tarif"));
+        hSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
 
 //  таблица тарифов
         columnTableTarifsName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -345,6 +362,7 @@ public class MainController {
         setupClearButtonField(tfOldMetrReadingsWater);
         setupClearButtonField(tfNewMetrReadingsWater);
         setupClearButtonField(tfAreaRoom);
+        setupClearButtonField(tfHAreaRoom);
 
     }
 
@@ -464,6 +482,16 @@ public class MainController {
         tableHistoryWater.setItems(listWater.getServiceList());
 
         setLabelTarifs();
+
+
+
+
+
+
+
+
+
+
 
 //        DBUtils.closeConnection();
 
@@ -592,7 +620,8 @@ public class MainController {
             Double area = new Double(tfAreaRoom.getText());
             labelSumDwelling.setText("Сумма к оплате " + CalcUtils.calcDwelling(startDate, endDate, countPeople, area) + " грн.");
         } catch (NumberFormatException e){
-//            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
+            DialogManager.showInfoDialog("Ошибка!", "Не указана площадь квартиры");
+            return;
         }
     }
 
@@ -668,8 +697,65 @@ public class MainController {
         }
     }
 
+    public void enterPassedHeating(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER){
+            actionHeating();
+        }
+    }
+    public void actPayPeriodHeating (ActionEvent actionEvent){
+        if (dpEndPayPeriodWater.getValue() == null || dpStartPayPeriodWater.getValue() == null){
+
+        }else {
+            actionHeating();
+        }
+    }
+    private void actionHeating() {
+        LocalDate startDate = dpStartPayPeriodHeating.getValue();
+        LocalDate endDate = dpEndPayPeriodHeating.getValue();
+        Period period = Period.between(startDate, endDate);
+        ObservableList<MonthOfHeating> tmpHeating = FXCollections.observableArrayList();
 
 
+        try {
+            if (equalsDate(startDate, endDate)){
+                dpEndPayPeriodWater.setValue(LocalDate.now());
+                return;
+            }
+            tmpHeating.clear();
+            for (int i = 0; i<=period.getMonths(); i++){
+                MonthOfHeating monthOfHeating = new MonthOfHeating();
+                Month month = startDate.plusMonths(i).getMonth();
+                monthOfHeating.setMonth(month);
+                monthOfHeating.setName(month.getDisplayName(TextStyle.FULL_STANDALONE, new Locale("ru", "RU")));
+                tmpHeating.add(monthOfHeating);
+            }
+            ObservableList<Tarif> listTarif = DBUtils.getListTarif("Теплоэнергия");
+            for (MonthOfHeating monthOfHeating : tmpHeating){
+                for (Tarif tarif : listTarif){
+                    if (monthOfHeating.getMonth()==tarif.getDateChangeOfTarif().getMonth()){
+                        monthOfHeating.setTarif(tarif.getCost());
+                        break;
+                    }
+                }
+                Double area = Double.parseDouble(tfHAreaRoom.getText());
+                System.out.println(area);
+                monthOfHeating.setSum(CalcUtils.calcHeatingSingleMonth(monthOfHeating.getTarif(), area));
+            }
+
+
+            tablePayPerionSumHeating.setItems(tmpHeating);
+
+
+            labelSumHeating.setText("Сумма к оплате " + CalcUtils.calcHeatingAllMonth(tmpHeating) + " грн.");
+
+        } catch (NumberFormatException e){
+            DialogManager.showInfoDialog("Ошибка!", "Не указана площадь квартиры");
+            return;
+        }
+    }
+
+
+//Обработка нажатия кнопок "Записать в базу"
     public void btnActionElectric(ActionEvent actionEvent) {
 
         try {
@@ -767,7 +853,7 @@ public class MainController {
             return;
         }
     }
-
+    public void btnActionHeating (ActionEvent actionEvent){};
     public void btnActionElevator(ActionEvent actionEvent) {
 
         try {

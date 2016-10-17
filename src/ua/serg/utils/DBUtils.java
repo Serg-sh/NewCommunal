@@ -248,5 +248,33 @@ public class DBUtils {
 
         return tarifLastDate;
     }
+
+    public static ObservableList<Tarif> getListTarif(String nameOfTarif) {
+        String sqlQuery = "SELECT name, date, price FROM Tarifs t INNER JOIN spr_name_tarifs nt ON t.name_tarif_id = nt.id " +
+                "WHERE name = '" + nameOfTarif + "'" + "ORDER BY date DESC";
+        ObservableList<Tarif> tarifList = FXCollections.observableArrayList();
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+
+            while (rs.next()) {
+                Tarif tarif = new Tarif();
+                tarif.setName(rs.getString("name"));
+                tarif.setDateChangeOfTarif(LocalDate.parse(rs.getString("date")));
+                tarif.setCost(rs.getBigDecimal("price"));
+                tarifList.add(tarif);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+
+
+        return tarifList;
+    }
 }
 
