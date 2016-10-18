@@ -41,6 +41,7 @@ public class MainController {
             "Квартплата",
             "Лифт",
             "Вывоз мусора");
+    private ObservableList<MonthOfHeating> tmpHeating = FXCollections.observableArrayList();
 
 
     // Tab Tarifs
@@ -483,16 +484,6 @@ public class MainController {
 
         setLabelTarifs();
 
-
-
-
-
-
-
-
-
-
-
 //        DBUtils.closeConnection();
 
     }
@@ -528,7 +519,7 @@ public class MainController {
         return false;
     }
 
-//    Обработка онажатия энтер - электричество расчет
+    //    Обработка онажатия энтер - электричество расчет
     public void enterPassedElectric(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
             actionElectric();
@@ -563,7 +554,8 @@ public class MainController {
 //            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
         }
     }
-
+    
+    //    Обработка онажатия энтер - вода расчет
     public void enterPassedWater(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
             actionWater();
@@ -598,7 +590,8 @@ public class MainController {
 //            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
         }
     }
-
+    
+    //    Обработка онажатия энтер - квартира расчет
     public void enterPassedDwelling(KeyEvent event) {
 
         if (event.getCode() == KeyCode.ENTER){
@@ -624,7 +617,8 @@ public class MainController {
             return;
         }
     }
-
+    
+    //    Обработка онажатия энтер - газ расчет
     public void enterPassedGas(KeyEvent event) {
 
         if (event.getCode() == KeyCode.ENTER){
@@ -648,7 +642,8 @@ public class MainController {
 //            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
         }
     }
-
+    
+    //    Обработка онажатия энтер - лифт расчет
     public void enterPassedElevator(KeyEvent event) {
 
         if (event.getCode() == KeyCode.ENTER){
@@ -672,7 +667,8 @@ public class MainController {
 //            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
         }
     }
-
+    
+    //    Обработка онажатия энтер - бытовые отходы расчет
     public void enterPassedGarbage(KeyEvent event) {
 
         if (event.getCode() == KeyCode.ENTER){
@@ -697,6 +693,7 @@ public class MainController {
         }
     }
 
+    //    Обработка онажатия энтер - теплоэнергия расчет
     public void enterPassedHeating(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER){
             actionHeating();
@@ -713,9 +710,6 @@ public class MainController {
         LocalDate startDate = dpStartPayPeriodHeating.getValue();
         LocalDate endDate = dpEndPayPeriodHeating.getValue();
         Period period = Period.between(startDate, endDate);
-        ObservableList<MonthOfHeating> tmpHeating = FXCollections.observableArrayList();
-
-
         try {
             if (equalsDate(startDate, endDate)){
                 dpEndPayPeriodWater.setValue(LocalDate.now());
@@ -741,11 +735,7 @@ public class MainController {
                 System.out.println(area);
                 monthOfHeating.setSum(CalcUtils.calcHeatingSingleMonth(monthOfHeating.getTarif(), area));
             }
-
-
             tablePayPerionSumHeating.setItems(tmpHeating);
-
-
             labelSumHeating.setText("Сумма к оплате " + CalcUtils.calcHeatingAllMonth(tmpHeating) + " грн.");
 
         } catch (NumberFormatException e){
@@ -753,9 +743,8 @@ public class MainController {
             return;
         }
     }
-
-
-//Обработка нажатия кнопок "Записать в базу"
+        
+ /*Обработка нажатия кнопок "Записать в базу"*/
     public void btnActionElectric(ActionEvent actionEvent) {
 
         try {
@@ -853,7 +842,34 @@ public class MainController {
             return;
         }
     }
-    public void btnActionHeating (ActionEvent actionEvent){};
+    public void btnActionHeating (ActionEvent actionEvent){
+        try {
+            LocalDate startDate = dpStartPayPeriodHeating.getValue();
+            LocalDate endDate = dpEndPayPeriodHeating.getValue();
+            String period = startDate + " - " + endDate;
+            LocalDate dateOfPay = LocalDate.now();
+//            Double area = Double.parseDouble(tfHAreaRoom.getText());
+            int countMonth = Period.between(startDate, endDate).getMonths() + 1;
+            if (tmpHeating.isEmpty()){return;}
+            BigDecimal sum = CalcUtils.calcHeatingAllMonth(tmpHeating);
+            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+            Healting healting = new Healting();
+            healting.setDatePay(dateOfPay);
+            healting.setPeriod(period);
+            healting.setSum(sum);
+            healting.setSumPerMonth(sumPerMonth);
+            String sqlQuery = "INSERT INTO Healting (date, period, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + ","  + sum + "," + sumPerMonth + ")";
+
+            DBUtils.updateDB(sqlQuery);
+            listHeating.add(0, healting);
+
+        } catch (NumberFormatException e){
+            DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
+            return;
+        }
+
+    }
     public void btnActionElevator(ActionEvent actionEvent) {
 
         try {
