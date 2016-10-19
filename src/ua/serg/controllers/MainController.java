@@ -450,9 +450,7 @@ public class MainController {
         listTarif.add(DBUtils.getResultsListTarif());
         tableTarifs.setItems(listTarif.getTarifsList());
 
-        listPay.clear();
-        listPay.add(DBUtils.getResultsListPay());
-        tableAll.setItems(listPay.getPaysList());
+        setItemsTableAll();
 
         listGas.clear();
         listGas.add(DBUtils.getResultsListService("SELECT * FROM Gas ORDER BY date DESC", new Gas()));
@@ -485,6 +483,13 @@ public class MainController {
         setLabelTarifs();
 
 //        DBUtils.closeConnection();
+
+    }
+
+    private void setItemsTableAll() {
+        listPay.clear();
+        listPay.add(DBUtils.getResultsListPay());
+        tableAll.setItems(listPay.getPaysList());
 
     }
 
@@ -732,7 +737,7 @@ public class MainController {
                     }
                 }
                 Double area = Double.parseDouble(tfHAreaRoom.getText());
-                System.out.println(area);
+//                System.out.println(area);
                 monthOfHeating.setSum(CalcUtils.calcHeatingSingleMonth(monthOfHeating.getTarif(), area));
             }
             tablePayPerionSumHeating.setItems(tmpHeating);
@@ -773,6 +778,8 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listElectric.add(0, electric);
+            DBUtils.setSumPay("Electric", dateOfPay, sum, "electric_pay");
+            setItemsTableAll();
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
@@ -807,6 +814,8 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listWater.add(0, water);
+            DBUtils.setSumPay("Wather", dateOfPay, sum, "wather_pay");
+            setItemsTableAll();
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
@@ -836,6 +845,8 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listGas.add(0, gas);
+            DBUtils.setSumPay("Gas", dateOfPay, sum, "gas_pay");
+            setItemsTableAll();
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
@@ -863,6 +874,8 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listHeating.add(0, healting);
+            DBUtils.setSumPay("Healting", dateOfPay, sum, "heating_pay");
+            setItemsTableAll();
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
@@ -893,6 +906,8 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listElevator.add(0, elevator);
+            DBUtils.setSumPay("Elevator", dateOfPay, sum, "elevator_pay");
+            setItemsTableAll();
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
@@ -922,6 +937,8 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listGarbage.add(0, garbage);
+            DBUtils.setSumPay("Garbage", dateOfPay, sum, "garbage_pay");
+            setItemsTableAll();
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
@@ -951,6 +968,8 @@ public class MainController {
 
             DBUtils.updateDB(sqlQuery);
             listDwelling.add(0, dwelling);
+            DBUtils.setSumPay("Dwelling", dateOfPay, sum, "dwelling_pay");
+            setItemsTableAll();
 
         } catch (NumberFormatException e){
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");

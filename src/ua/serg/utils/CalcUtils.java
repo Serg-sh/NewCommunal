@@ -28,7 +28,7 @@ public class CalcUtils {
             use100 = countMonth * before100;
             use600 = toUse - use100;
         }
-        System.out.println(use100 +"  -  "+ use600 + "   :" + toUse + " : " + countMonth);
+//        System.out.println(use100 +"  -  "+ use600 + "   :" + toUse + " : " + countMonth);
 
         sum = DBUtils.getTarifLastDate("Электроэнергия до 100 кВатт").multiply(BigDecimal.valueOf(new Double(use100))).add(
                 DBUtils.getTarifLastDate("Электроэнергия до 600 кВатт").multiply(BigDecimal.valueOf(new Double(use600))));

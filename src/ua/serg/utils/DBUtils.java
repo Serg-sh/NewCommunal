@@ -276,5 +276,33 @@ public class DBUtils {
 
         return tarifList;
     }
+
+    public static void setSumPay(String tbName, LocalDate date, BigDecimal sum, String columnName){
+        ObservableList<LocalDate> listDate = FXCollections.observableArrayList();
+        LocalDate datePay;
+        Statement statement = null;
+        ResultSet rs = null;
+        String sqlQuery = "SELECT date_pay FROM Pay";
+        try {
+
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+            while (rs.next()) {
+                datePay = LocalDate.parse(rs.getString("date_pay"));
+                listDate.add(datePay);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (listDate.contains(date)){
+            sqlQuery = "UPDATE Pay SET " + columnName + "= (SELECT id FROM " + tbName + " WHERE date=" + "'" + date + "'" +" AND sum=" + sum +") WHERE date_pay="+ "'" +date + "'";
+            updateDB(sqlQuery);
+        }else{
+            sqlQuery = "INSERT INTO Pay (date_pay, " + columnName +") VALUES (" + "'" + date + "'" + ", (SELECT id FROM " + tbName + " WHERE date=" + "'" + date + "'" +" AND sum=" + sum + "))";
+            updateDB(sqlQuery);
+        }
+        closeStatements(statement, rs);
+    }
 }
 
