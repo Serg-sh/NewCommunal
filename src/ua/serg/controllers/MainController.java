@@ -10,6 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import ua.serg.impl.*;
@@ -18,8 +21,10 @@ import ua.serg.utils.CalcUtils;
 import ua.serg.utils.DBUtils;
 import ua.serg.utils.DialogManager;
 
+import java.io.File;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
@@ -77,6 +82,8 @@ public class MainController {
     private TableColumn<Pay, BigDecimal> columnTableAllSum;
     @FXML
     private TableColumn<Pay, String> columnTableAllComment;
+    @FXML
+    private Button btnPrint;
 
     //Tab Calc -> tab Electric
     @FXML
@@ -177,8 +184,8 @@ public class MainController {
     private DatePicker dpEndPayPeriodDwelling;
     @FXML
     private Label labelTarifDwelling;
-    @FXML
-    private ComboBox cbCountPeopleDwelling;
+//    @FXML
+//    private ComboBox cbCountPeopleDwelling;
     @FXML
     private Label labelSumDwelling;
     @FXML
@@ -372,8 +379,8 @@ public class MainController {
 
         cbCountPeopleGaz.setItems(countPeople);
         cbCountPeopleGaz.setValue(countPeople.get(1));
-        cbCountPeopleDwelling.setItems(countPeople);
-        cbCountPeopleDwelling.setValue(countPeople.get(1));
+//        cbCountPeopleDwelling.setItems(countPeople);
+//        cbCountPeopleDwelling.setValue(countPeople.get(1));
         cbCountPeopleElevator.setItems(countPeople);
         cbCountPeopleElevator.setValue(countPeople.get(1));
         cbCountPeopleGarbage.setItems(countPeople);
@@ -614,9 +621,9 @@ public class MainController {
                 dpEndPayPeriodDwelling.setValue(LocalDate.now());
                 return;
             }
-            Integer countPeople = (Integer) cbCountPeopleDwelling.getValue();
+//            Integer countPeople = (Integer) cbCountPeopleDwelling.getValue();
             Double area = new Double(tfAreaRoom.getText());
-            labelSumDwelling.setText("Сумма к оплате " + CalcUtils.calcDwelling(startDate, endDate, countPeople, area) + " грн.");
+            labelSumDwelling.setText("Сумма к оплате " + CalcUtils.calcDwelling(startDate, endDate, area) + " грн.");
         } catch (NumberFormatException e){
             DialogManager.showInfoDialog("Ошибка!", "Не указана площадь квартиры");
             return;
@@ -952,9 +959,9 @@ public class MainController {
             LocalDate endDate = dpEndPayPeriodDwelling.getValue();
             String period = startDate + " - " + endDate;
             LocalDate dateOfPay = LocalDate.now();
-            Integer countPeople =(Integer) cbCountPeopleDwelling.getValue();
+//            Integer countPeople =(Integer) cbCountPeopleDwelling.getValue();
             Double area = Double.parseDouble(tfAreaRoom.getText());
-            BigDecimal sum = CalcUtils.calcDwelling(startDate,endDate, countPeople, area);
+            BigDecimal sum = CalcUtils.calcDwelling(startDate,endDate, area);
             int countMonth = Period.between(startDate, endDate).getMonths() + 1;
             BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
 
@@ -975,5 +982,34 @@ public class MainController {
             DialogManager.showErrorDialog("Ошибка!","Проверте правильность введения данных!");
             return;
         }
+    }
+
+
+//    тест
+    public void actionBtnPrint(ActionEvent actionEvent) {
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("DataBase", "*.db"),
+                new FileChooser.ExtensionFilter("All", "*.*")
+        );
+
+
+
+
+
+
+
+        fileChooser.setInitialFileName("CommunalDB.db");
+
+
+
+
+
+
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        System.out.println(file.getAbsolutePath());
     }
 }

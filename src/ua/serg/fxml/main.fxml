@@ -102,7 +102,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="btnPrint" layoutX="527.0" layoutY="118.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="137.0" styleClass="styleFontLabel18" text="Печать" AnchorPane.rightAnchor="17.0" />
+                              <Button fx:id="btnPrint" layoutX="527.0" layoutY="118.0" mnemonicParsing="false" onAction="#actionBtnPrint" prefHeight="51.0" prefWidth="137.0" styleClass="styleFontLabel18" text="Печать" AnchorPane.rightAnchor="17.0" />
                            </children></AnchorPane>
                      </children>
                   </VBox>
@@ -356,10 +356,8 @@
                                                 <DatePicker fx:id="dpEndPayPeriodDwelling" layoutX="301.0" layoutY="26.0" onAction="#actCountPeopleDwelling" prefHeight="25.0" prefWidth="120.0" styleClass="fontLabel14" AnchorPane.leftAnchor="301.0" AnchorPane.topAnchor="16.0" />
                                                 <Label fx:id="labelSumDwelling" layoutX="18.0" layoutY="135.0" prefHeight="41.0" prefWidth="321.0" styleClass="styleFontLabel18" text="Сумма к оплате 0.00 грн." AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="140.0" />
                                                 <Button fx:id="btnUpdateDbDwelling" layoutX="14.0" layoutY="215.0" mnemonicParsing="false" onAction="#btnActionDwelling" prefHeight="25.0" prefWidth="200.0" styleClass="fontLabel14" text="Записать в базу" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="215.0" />
-                                                <Label layoutX="23.0" layoutY="97.0" prefHeight="17.0" prefWidth="228.0" styleClass="fontLabel14" text="Прописанно человек в квартире:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
-                                                <ComboBox fx:id="cbCountPeopleDwelling" layoutX="241.0" layoutY="95.0" onAction="#actCountPeopleDwelling" prefHeight="25.0" prefWidth="60.0" styleClass="fontLabel14" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="91.0" />
-                                                <Label layoutX="343.0" layoutY="99.0" prefHeight="17.0" prefWidth="178.0" styleClass="fontLabel14" text="Площадь квартиры (кв.м):" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="95.0" />
-                                                <CustomTextField fx:id="tfAreaRoom" layoutX="523.0" layoutY="92.0" onKeyPressed="#enterPassedDwelling" prefHeight="25.0" prefWidth="56.0" promptText="Кол-во" styleClass="fontLabel14" AnchorPane.leftAnchor="520.0" AnchorPane.topAnchor="90.0" />
+                                                <Label layoutX="343.0" layoutY="99.0" prefHeight="17.0" prefWidth="178.0" styleClass="fontLabel14" text="Площадь квартиры (кв.м):" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
+                                                <CustomTextField fx:id="tfAreaRoom" layoutX="523.0" layoutY="92.0" onKeyPressed="#enterPassedDwelling" prefHeight="25.0" prefWidth="56.0" promptText="Кол-во" styleClass="fontLabel14" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="90.0" />
                                              </children>
                                              <opaqueInsets>
                                                 <Insets />

@@ -49,10 +49,10 @@ public class CalcUtils {
 
     }
 
-    public static BigDecimal calcDwelling(LocalDate startDate, LocalDate endDate,Integer countPeople, Double area) {
+    public static BigDecimal calcDwelling(LocalDate startDate, LocalDate endDate, Double area) {
         BigDecimal sum;
         int countMonth = Period.between(startDate, endDate).getMonths()+1;
-        sum = DBUtils.getTarifLastDate("Квартплата").multiply(BigDecimal.valueOf(area)).multiply(BigDecimal.valueOf(new Double(countPeople))).multiply(BigDecimal.valueOf(new Double(countMonth)));
+        sum = DBUtils.getTarifLastDate("Квартплата").multiply(BigDecimal.valueOf(area)).multiply(BigDecimal.valueOf(new Double(countMonth)));
         return sum.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 

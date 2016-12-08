@@ -304,5 +304,9 @@ public class DBUtils {
         }
         closeStatements(statement, rs);
     }
+
+    public static Connection getConn(){
+        return con;
+    }
 }
 
