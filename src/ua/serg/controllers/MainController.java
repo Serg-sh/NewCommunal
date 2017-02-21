@@ -4,15 +4,18 @@ import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.control.textfield.TextFields;
 import ua.serg.impl.*;
@@ -20,18 +23,16 @@ import ua.serg.objects.*;
 import ua.serg.utils.CalcUtils;
 import ua.serg.utils.DBUtils;
 import ua.serg.utils.DialogManager;
-
+import javafx.scene.input.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.format.TextStyle;
-import java.time.temporal.TemporalUnit;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class MainController {
@@ -47,6 +48,11 @@ public class MainController {
             "Лифт",
             "Вывоз мусора");
     private ObservableList<MonthOfHeating> tmpHeating = FXCollections.observableArrayList();
+
+
+
+
+
 
 
     // Tab Tarifs
@@ -296,6 +302,8 @@ public class MainController {
     @FXML
     private void initialize() {
 
+
+
         hMonth.setCellValueFactory(new PropertyValueFactory<>("name"));
         hTarif.setCellValueFactory(new PropertyValueFactory<>("tarif"));
         hSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
@@ -361,6 +369,37 @@ public class MainController {
         setClearFields(); /*установка самоочищающегос поля*/
         setCountPeopleAndTarifName(); /*усттановка кол-ва пропис. и названия тарифов */
         setPayPeriodDate();
+        initListeners();
+    }
+//Установка слушателей
+    private void initListeners() {
+//        addresBookImpl.getPersonList().addListener((ListChangeListener<Person>) c -> {
+//            updateCountLabel();
+//        });
+
+        tableAll.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2){
+                createDetaliziedWindow();
+            }
+        });
+    }
+
+    private void createDetaliziedWindow() {
+        Stage detalizied = new Stage();
+        Parent parent = null;
+        try {
+            parent = FXMLLoader.load(getClass().getResource("../fxml/detalizied.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        detalizied.setTitle("Детализация платежа");
+        detalizied.setMinHeight(400);
+        detalizied.setMinWidth(600);
+        detalizied.setResizable(false);
+        detalizied.setScene(new Scene(parent));
+        detalizied.setAlwaysOnTop(true);
+        detalizied.initModality(Modality.APPLICATION_MODAL);
+        detalizied.showAndWait();
     }
 
     private void setClearFields() {
@@ -1013,4 +1052,8 @@ public class MainController {
 
         System.out.println(file.getAbsolutePath());
     }
+
+
+
+
 }
