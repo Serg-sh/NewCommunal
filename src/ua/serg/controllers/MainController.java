@@ -377,6 +377,7 @@ public class MainController {
 //            updateCountLabel();
 //        });
 
+
         tableAll.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2){
                 createDetaliziedWindow();
