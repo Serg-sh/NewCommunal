@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import ua.serg.impl.AbstrsctPay;
 
@@ -29,6 +30,10 @@ public class DetaliziedController {
     private TableColumn ctDetalizationSum;
     @FXML
     private TableColumn ctDetalizationSumPerMonth;
+    @FXML
+    private TextArea detalisationTextArea;
+    @FXML
+    private Button btnDetalizationSave;
 
     @FXML
     private void initialize(){
