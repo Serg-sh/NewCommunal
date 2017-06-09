@@ -59,7 +59,7 @@ public class CalcUtils {
     public static BigDecimal calcGas(LocalDate startDate, LocalDate endDate, Integer countPeople) {
         BigDecimal sum;
         int countMonth = Period.between(startDate, endDate).getMonths()+1;
-        sum = DBUtils.getTarifLastDate("Газоснабжение").multiply(BigDecimal.valueOf(new Double(countPeople))).multiply(BigDecimal.valueOf(new Double(countMonth))).multiply(new BigDecimal(4.4));
+        sum = DBUtils.getTarifLastDate("Газоснабжение").multiply(BigDecimal.valueOf(new Double(countPeople))).multiply(BigDecimal.valueOf(new Double(countMonth))).multiply(new BigDecimal(4.5));
         return sum.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
 
