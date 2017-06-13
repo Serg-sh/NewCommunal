@@ -175,6 +175,8 @@ public class MainController {
     @FXML
     private Button btnUpdateDbGas;
     @FXML
+    private ToggleButton tBtnReceipt ;
+    @FXML
     private TableColumn<Gas, Date> ctHistoryGasDate;
     @FXML
     private TableColumn<Gas, String> ctHistoryGasPeriod;
@@ -304,6 +306,8 @@ public class MainController {
 
 
 
+
+
         hMonth.setCellValueFactory(new PropertyValueFactory<>("name"));
         hTarif.setCellValueFactory(new PropertyValueFactory<>("tarif"));
         hSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
@@ -369,6 +373,7 @@ public class MainController {
         setClearFields(); /*установка самоочищающегос поля*/
         setCountPeopleAndTarifName(); /*усттановка кол-ва пропис. и названия тарифов */
         setPayPeriodDate();
+        setAreaRoom();
         initListeners();
     }
 //Установка слушателей
@@ -383,6 +388,33 @@ public class MainController {
                 createDetaliziedWindow();
             }
         });
+        dpStartPayPeriodEl.setOnAction(event -> {
+            dpStartPayPeriodWater.setValue(dpStartPayPeriodEl.getValue());
+            dpStartPayPeriodHeating.setValue(dpStartPayPeriodEl.getValue());
+            dpStartPayPeriodDwelling.setValue(dpStartPayPeriodEl.getValue());
+            dpStartPayPeriodElevator.setValue(dpStartPayPeriodEl.getValue());
+            dpStartPayPeriodGarbage.setValue(dpStartPayPeriodEl.getValue());
+            dpStartPayPeriodGas.setValue(dpStartPayPeriodEl.getValue());
+        });
+        dpEndPayPeriodEl.setOnAction(event -> {
+            dpEndPayPeriodWater.setValue(dpEndPayPeriodEl.getValue());
+            dpEndPayPeriodHeating.setValue(dpEndPayPeriodEl.getValue());
+            dpEndPayPeriodDwelling.setValue(dpEndPayPeriodEl.getValue());
+            dpEndPayPeriodElevator.setValue(dpEndPayPeriodEl.getValue());
+            dpEndPayPeriodGarbage.setValue(dpEndPayPeriodEl.getValue());
+            dpEndPayPeriodGas.setValue(dpEndPayPeriodEl.getValue());
+        });
+
+        tBtnReceipt.setOnAction(event -> {
+            if (!tBtnReceipt.isSelected()){
+                tBtnReceipt.setText("Оплата по квитанции");
+                labelTarifGas.setVisible(true);
+            }else {
+                tBtnReceipt.setText("Оплата по Тарифу");
+                labelTarifGas.setVisible(false);
+            }
+        });
+
     }
 
     private void createDetaliziedWindow() {
@@ -425,8 +457,6 @@ public class MainController {
         cbCountPeopleElevator.setValue(countPeople.get(1));
         cbCountPeopleGarbage.setItems(countPeople);
         cbCountPeopleGarbage.setValue(countPeople.get(1));
-
-
     }
 
     private void setPayPeriodDate() {
@@ -445,6 +475,10 @@ public class MainController {
         dpEndPayPeriodGarbage.setValue(LocalDate.now());
         dpStartPayPeriodHeating.setValue(setFirstMonthDey());
         dpEndPayPeriodHeating.setValue(LocalDate.now());
+    }
+    private void setAreaRoom(){
+        tfHAreaRoom.setText("35.8");
+        tfAreaRoom.setText("35.8");
     }
 
     private LocalDate setFirstMonthDey() {
@@ -581,6 +615,7 @@ public class MainController {
         if (dpEndPayPeriodWater.getValue() == null || dpStartPayPeriodWater.getValue() == null){
 
         }else {
+
             actionElectric();
         }
     }
@@ -1053,6 +1088,9 @@ public class MainController {
 
         System.out.println(file.getAbsolutePath());
     }
+
+
+
 
 
 

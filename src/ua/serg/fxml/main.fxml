@@ -305,6 +305,7 @@
                                                 <Button fx:id="btnUpdateDbGas" layoutX="14.0" layoutY="215.0" mnemonicParsing="false" onAction="#btnActionGas" prefHeight="25.0" prefWidth="200.0" styleClass="fontLabel14" text="Записать в базу" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="215.0" />
                                                 <Label layoutX="23.0" layoutY="97.0" prefHeight="17.0" prefWidth="228.0" styleClass="fontLabel14" text="Прописанно человек в квартире:" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0" />
                                                 <ComboBox fx:id="cbCountPeopleGaz" layoutX="241.0" layoutY="95.0" onAction="#actCountPeopleGas" prefHeight="25.0" prefWidth="60.0" styleClass="fontLabel14" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="91.0" />
+                                                <ToggleButton fx:id="tBtnReceipt" layoutX="464.0" layoutY="18.0" mnemonicParsing="false" styleClass="fontLabel14" text="Оплата по квитанции" AnchorPane.leftAnchor="465.0" AnchorPane.topAnchor="16.0" />
                                              </children>
                                              <opaqueInsets>
                                                 <Insets />
