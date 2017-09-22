@@ -167,7 +167,7 @@ public class MainController {
     @FXML
     private ComboBox cbCountPeopleGaz;
     @FXML
-    private Label labelToUseGas;
+    private Label labelToUseGasMetr;
     @FXML
     private Label labelSumGas;
     @FXML
@@ -184,6 +184,19 @@ public class MainController {
     private TableColumn<Gas, BigDecimal> ctHistoryGasSum;
     @FXML
     private TableColumn<Gas, BigDecimal> ctHistoryGasSumPerM;
+    @FXML
+    private Label labelGas;
+    @FXML
+    private CustomTextField tfReceipt; /*изменить на NumberTextField в Main.fxml тоже*/
+    @FXML
+    private CheckBox cbGasCounter;
+    @FXML
+    private CustomTextField tfOldMetrReadingsGas; /*изменить на NumberTextField в Main.fxml тоже*/
+    @FXML
+    private CustomTextField tfNewMetrReadingsGas; /*изменить на NumberTextField в Main.fxml тоже*/
+    @FXML
+    private Label labelToUseGas;
+
 
     // Tab Calc -> tab Dwelling
     @FXML
@@ -304,10 +317,6 @@ public class MainController {
     @FXML
     private void initialize() {
 
-
-
-
-
         hMonth.setCellValueFactory(new PropertyValueFactory<>("name"));
         hTarif.setCellValueFactory(new PropertyValueFactory<>("tarif"));
         hSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
@@ -405,14 +414,50 @@ public class MainController {
             dpEndPayPeriodGas.setValue(dpEndPayPeriodEl.getValue());
         });
 
+//Обработка кнопки "Оплата по квитанции " - tBtnReceipt
         tBtnReceipt.setOnAction(event -> {
             if (!tBtnReceipt.isSelected()){
                 tBtnReceipt.setText("Оплата по квитанции");
                 labelTarifGas.setVisible(true);
+                tfReceipt.setVisible(false);
+                cbCountPeopleGaz.setVisible(true);
+                labelGas.setText("Прописанно человек в квартире:");
+                actionGas();
             }else {
                 tBtnReceipt.setText("Оплата по Тарифу");
                 labelTarifGas.setVisible(false);
+                cbCountPeopleGaz.setVisible(false);
+                tfReceipt.setVisible(true);
+                labelGas.setText("Сумма к оплате по квитанции:");
+                actionGas();
             }
+        });
+
+//Обработка полей для счетчика Газ
+
+        cbGasCounter.setOnAction(event -> {
+            if(cbGasCounter.isSelected()){
+                tfOldMetrReadingsGas.setEditable(true);
+                tfNewMetrReadingsGas.setEditable(true);
+                labelToUseGasMetr.setVisible(true);
+            }else {
+                tfOldMetrReadingsGas.setEditable(false);
+                tfOldMetrReadingsGas.setText(null);
+                tfOldMetrReadingsGas.setPromptText("Пред. пок-я");
+                tfNewMetrReadingsGas.setEditable(false);
+                tfNewMetrReadingsGas.setText(null);
+                tfNewMetrReadingsGas.setPromptText("Новые пок-я");
+                labelToUseGasMetr.setVisible(false);
+            }
+        });
+//        Обработка счетчика Газ
+        tfNewMetrReadingsGas.setOnAction(event -> {
+//            int toUse = 0;
+            int startMetr = Integer.parseInt(tfOldMetrReadingsGas.getText());
+            int endMetr = Integer.parseInt(tfNewMetrReadingsGas.getText());
+            int toUse = endMetr - startMetr;
+            if (equals0toUse(toUse)) return;
+            labelToUseGasMetr.setText("Потребленно " + toUse + " кб.м");
         });
 
     }
@@ -443,6 +488,7 @@ public class MainController {
         setupClearButtonField(tfNewMetrReadingsWater);
         setupClearButtonField(tfAreaRoom);
         setupClearButtonField(tfHAreaRoom);
+        setupClearButtonField(tfReceipt);
 
     }
 
@@ -724,7 +770,12 @@ public class MainController {
                 return;
             }
             Integer countPeople = (Integer) cbCountPeopleGaz.getValue();
-            labelSumGas.setText("Сумма к оплате " + CalcUtils.calcGas(startDate, endDate, countPeople) + " грн.");
+            if(!tBtnReceipt.isSelected()){
+                labelSumGas.setText("Сумма к оплате: " + CalcUtils.calcGas(startDate, endDate, countPeople) + " грн.");
+            }else {
+                labelSumGas.setText("Сумма к оплате: " + tfReceipt.getText() + " грн.");
+            }
+
         } catch (NumberFormatException e){
 //            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
         }
@@ -904,25 +955,39 @@ public class MainController {
             return;
         }
     }
+//    Запись в базу газ
+
     public void btnActionGas(ActionEvent actionEvent) {
 
         try {
+            String sqlQuery;
             LocalDate startDate = dpStartPayPeriodGas.getValue();
             LocalDate endDate = dpEndPayPeriodGas.getValue();
             String period = startDate + " - " + endDate;
-            LocalDate dateOfPay = LocalDate.now();
-            Integer countPeople =(Integer) cbCountPeopleGaz.getValue();
-            BigDecimal sum = CalcUtils.calcGas(startDate,endDate, countPeople);
             int countMonth = Period.between(startDate, endDate).getMonths() + 1;
-            BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+            LocalDate dateOfPay = LocalDate.now();
+            BigDecimal sum;
+            BigDecimal sumPerMonth;
+            if (!tBtnReceipt.isSelected()){
+                Integer countPeople =(Integer) cbCountPeopleGaz.getValue();
+                sum = CalcUtils.calcGas(startDate,endDate, countPeople);
+                sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+
+            }else {
+                sum = BigDecimal.valueOf(Double.valueOf(tfReceipt.getText())).setScale(2, BigDecimal.ROUND_HALF_UP);
+                sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
+            }
+
+            sqlQuery = "INSERT INTO Gas (date, period, sum, sum_per_month)" +
+                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + ","  + sum + "," + sumPerMonth + ")";
+
 
             Gas gas = new Gas();
             gas.setDatePay(dateOfPay);
             gas.setPeriod(period);
             gas.setSum(sum);
             gas.setSumPerMonth(sumPerMonth);
-            String sqlQuery = "INSERT INTO Gas (date, period, sum, sum_per_month)" +
-                    "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + ","  + sum + "," + sumPerMonth + ")";
+
 
 
             DBUtils.updateDB(sqlQuery);
