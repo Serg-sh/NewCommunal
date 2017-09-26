@@ -62,6 +62,12 @@ public class CalcUtils {
         sum = DBUtils.getTarifLastDate("Газоснабжение").multiply(BigDecimal.valueOf(new Double(countPeople))).multiply(BigDecimal.valueOf(new Double(countMonth))).multiply(new BigDecimal(4.5));
         return sum.setScale(2, BigDecimal.ROUND_HALF_UP);
     }
+    public static BigDecimal calcGas(LocalDate startDate, LocalDate endDate, Integer startReadings, Integer endReadings) {
+        BigDecimal sum;
+        Integer use = endReadings - startReadings;
+        sum = DBUtils.getTarifLastDate("Газоснабжение").multiply(new BigDecimal(use));
+        return sum.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
 
     public static BigDecimal calcElevator(LocalDate startDate, LocalDate endDate, Integer countPeople) {
         BigDecimal sum;

@@ -308,5 +308,33 @@ public class DBUtils {
     public static Connection getConn(){
         return con;
     }
+
+    public static ObservableList<DetaliziedPay> getResultsListDetaliziedPays(String dateOfPay) {
+        String sqlQuery = "SELECT * FROM ViewPaysWithPeriod WHERE Date = " + "'" + dateOfPay + "'";
+
+        ObservableList<DetaliziedPay> resList = FXCollections.observableArrayList();
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+
+            DetaliziedPay electric = new DetaliziedPay();
+            electric.setNameTarif("Электроэнергия");
+            electric.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+            electric.setPeriodOfPay(rs.getString("ElectricPeriod"));
+            electric.setSumOfPay(rs.getBigDecimal("Electric"));
+            resList.add(electric);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+
+
+        return resList;
+    }
 }
 
