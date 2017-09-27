@@ -101,8 +101,6 @@ public class DBUtils {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
-
         return resList;
     }
 
@@ -135,8 +133,6 @@ public class DBUtils {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
-
         return resList;
     }
 
@@ -150,15 +146,15 @@ public class DBUtils {
             statement = con.createStatement();
             rs = statement.executeQuery(sqlQuery);
             while (rs.next()) {
-                if (service instanceof Gas){
+                if (service instanceof Gas) {
                     service = new Gas();
-                }else if (service instanceof Healting){
+                } else if (service instanceof Healting) {
                     service = new Healting();
-                }else if (service instanceof Dwelling){
+                } else if (service instanceof Dwelling) {
                     service = new Dwelling();
-                }else if (service instanceof Elevator){
+                } else if (service instanceof Elevator) {
                     service = new Elevator();
-                }else if (service instanceof Garbage){
+                } else if (service instanceof Garbage) {
                     service = new Garbage();
                 }
                 service.setDatePay(LocalDate.parse(rs.getString("date")));
@@ -166,15 +162,11 @@ public class DBUtils {
                 service.setSum(rs.getBigDecimal("sum"));
                 service.setSumPerMonth(rs.getBigDecimal("sum_per_month"));
                 resList.add(service);
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
-
         return resList;
     }
 
@@ -188,9 +180,9 @@ public class DBUtils {
             statement = con.createStatement();
             rs = statement.executeQuery(sqlQuery);
             while (rs.next()) {
-                if (service instanceof Electric){
+                if (service instanceof Electric) {
                     service = new Electric();
-                }else if (service instanceof Wather){
+                } else if (service instanceof Wather) {
                     service = new Wather();
                 }
                 service.setDatePay(LocalDate.parse(rs.getString("date")));
@@ -200,19 +192,15 @@ public class DBUtils {
                 service.setSum(rs.getBigDecimal("sum"));
                 service.setSumPerMonth(rs.getBigDecimal("sum_per_month"));
                 resList.add(service);
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
-
         return resList;
     }
 
-    public static Integer getStartMetrReadings (String db){
+    public static Integer getStartMetrReadings(String db) {
         Integer startMetrReadings = 0;
         Statement statement = null;
         ResultSet rs = null;
@@ -226,11 +214,10 @@ public class DBUtils {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
         return startMetrReadings;
     }
 
-    public static BigDecimal getTarifLastDate (String nameOfTarif){
+    public static BigDecimal getTarifLastDate(String nameOfTarif) {
         BigDecimal tarifLastDate = new BigDecimal(0);
         Statement statement = null;
         ResultSet rs = null;
@@ -245,7 +232,6 @@ public class DBUtils {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
         return tarifLastDate;
     }
 
@@ -272,12 +258,10 @@ public class DBUtils {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
-
         return tarifList;
     }
 
-    public static void setSumPay(String tbName, LocalDate date, BigDecimal sum, String columnName){
+    public static void setSumPay(String tbName, LocalDate date, BigDecimal sum, String columnName) {
         ObservableList<LocalDate> listDate = FXCollections.observableArrayList();
         LocalDate datePay;
         Statement statement = null;
@@ -291,27 +275,25 @@ public class DBUtils {
                 datePay = LocalDate.parse(rs.getString("date_pay"));
                 listDate.add(datePay);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (listDate.contains(date)){
-            sqlQuery = "UPDATE Pay SET " + columnName + "= (SELECT id FROM " + tbName + " WHERE date=" + "'" + date + "'" +" AND sum=" + sum +") WHERE date_pay="+ "'" +date + "'";
+        if (listDate.contains(date)) {
+            sqlQuery = "UPDATE Pay SET " + columnName + "= (SELECT id FROM " + tbName + " WHERE date=" + "'" + date + "'" + " AND sum=" + sum + ") WHERE date_pay=" + "'" + date + "'";
             updateDB(sqlQuery);
-        }else{
-            sqlQuery = "INSERT INTO Pay (date_pay, " + columnName +") VALUES (" + "'" + date + "'" + ", (SELECT id FROM " + tbName + " WHERE date=" + "'" + date + "'" +" AND sum=" + sum + "))";
+        } else {
+            sqlQuery = "INSERT INTO Pay (date_pay, " + columnName + ") VALUES (" + "'" + date + "'" + ", (SELECT id FROM " + tbName + " WHERE date=" + "'" + date + "'" + " AND sum=" + sum + "))";
             updateDB(sqlQuery);
         }
         closeStatements(statement, rs);
     }
 
-    public static Connection getConn(){
+    public static Connection getConn() {
         return con;
     }
 
     public static ObservableList<DetaliziedPay> getResultsListDetaliziedPays(String dateOfPay) {
         String sqlQuery = "SELECT * FROM ViewPaysWithPeriod WHERE Date = " + "'" + dateOfPay + "'";
-
         ObservableList<DetaliziedPay> resList = FXCollections.observableArrayList();
         Statement statement = null;
         ResultSet rs = null;
@@ -320,20 +302,67 @@ public class DBUtils {
             statement = con.createStatement();
             rs = statement.executeQuery(sqlQuery);
 
-            DetaliziedPay electric = new DetaliziedPay();
-            electric.setNameTarif("Электроэнергия");
-            electric.setDateOfPay(LocalDate.parse(rs.getString("Date")));
-            electric.setPeriodOfPay(rs.getString("ElectricPeriod"));
-            electric.setSumOfPay(rs.getBigDecimal("Electric"));
-            resList.add(electric);
+            while (rs.next()) {
+                DetaliziedPay electric = new DetaliziedPay();
+                electric.setNameTarif("Электроэнергия");
+                electric.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+                electric.setPeriodOfPay(rs.getString("ElectricPeriod"));
+                electric.setSumOfPay(rs.getBigDecimal("Electric"));
+                electric.calcSumPerMonth();
+                resList.add(electric);
 
+                DetaliziedPay wather = new DetaliziedPay();
+                wather.setNameTarif("Водоснабжение");
+                wather.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+                wather.setPeriodOfPay(rs.getString("WatherPeriod"));
+                wather.setSumOfPay(rs.getBigDecimal("Wather"));
+                wather.calcSumPerMonth();
+                resList.add(wather);
 
+                DetaliziedPay healting = new DetaliziedPay();
+                healting.setNameTarif("Теплоснабжение");
+                healting.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+                healting.setPeriodOfPay(rs.getString("HealtingPeriod"));
+                healting.setSumOfPay(rs.getBigDecimal("Healting"));
+                healting.calcSumPerMonth();
+                resList.add(healting);
+
+                DetaliziedPay dwelling = new DetaliziedPay();
+                dwelling.setNameTarif("Квартплата");
+                dwelling.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+                dwelling.setPeriodOfPay(rs.getString("DwellingPeriod"));
+                dwelling.setSumOfPay(rs.getBigDecimal("Dwelling"));
+                dwelling.calcSumPerMonth();
+                resList.add(dwelling);
+
+                DetaliziedPay gas = new DetaliziedPay();
+                gas.setNameTarif("Газоснабжение");
+                gas.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+                gas.setPeriodOfPay(rs.getString("GasPeriod"));
+                gas.setSumOfPay(rs.getBigDecimal("Gas"));
+                gas.calcSumPerMonth();
+                resList.add(gas);
+
+                DetaliziedPay elevator = new DetaliziedPay();
+                elevator.setNameTarif("Лифт");
+                elevator.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+                elevator.setPeriodOfPay(rs.getString("ElevatorPeriod"));
+                elevator.setSumOfPay(rs.getBigDecimal("Elevator"));
+                elevator.calcSumPerMonth();
+                resList.add(elevator);
+
+                DetaliziedPay garbage = new DetaliziedPay();
+                garbage.setNameTarif("Вывоз мусора");
+                garbage.setDateOfPay(LocalDate.parse(rs.getString("Date")));
+                garbage.setPeriodOfPay(rs.getString("GarbagePeriod"));
+                garbage.setSumOfPay(rs.getBigDecimal("Garbage"));
+                garbage.calcSumPerMonth();
+                resList.add(garbage);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         closeStatements(statement, rs);
-
-
         return resList;
     }
 }

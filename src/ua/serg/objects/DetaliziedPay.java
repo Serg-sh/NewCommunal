@@ -4,7 +4,7 @@ import ua.serg.impl.CollectionService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
+import java.time.Period;
 
 
 public class DetaliziedPay {
@@ -26,7 +26,13 @@ public class DetaliziedPay {
         this.sumPerMonth = sumPerMonth;
     }
 
-
+    public void calcSumPerMonth(){
+        String d1 = periodOfPay.substring(0, 10);
+        String d2 = periodOfPay.substring(13, 23);
+        Period p = Period.between(LocalDate.parse(d1), LocalDate.parse(d2));
+        int count = p.getMonths() + 1;
+        sumPerMonth = sumOfPay.divide(new BigDecimal(count), 2, BigDecimal.ROUND_HALF_UP);
+    }
 
     public void setNameTarif(String nameTarif) {
         this.nameTarif = nameTarif;
@@ -48,4 +54,23 @@ public class DetaliziedPay {
         this.sumPerMonth = sumPerMonth;
     }
 
+    public String getNameTarif() {
+        return nameTarif;
+    }
+
+    public LocalDate getDateOfPay() {
+        return dateOfPay;
+    }
+
+    public String getPeriodOfPay() {
+        return periodOfPay;
+    }
+
+    public BigDecimal getSumOfPay() {
+        return sumOfPay;
+    }
+
+    public BigDecimal getSumPerMonth() {
+        return sumPerMonth;
+    }
 }

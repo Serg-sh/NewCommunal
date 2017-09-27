@@ -309,7 +309,7 @@ public class MainController {
     private CollectionService listDwelling = new CollectionService();
     private CollectionService listElevator = new CollectionService();
     private CollectionService listGarbage = new CollectionService();
-
+    private ObservableList<DetaliziedPay> listDetaliziedPays = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
@@ -374,7 +374,6 @@ public class MainController {
         ctHistoryWaterSum.setCellValueFactory(new PropertyValueFactory<>("sum"));
         ctHistoryWaterSumPerM.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
 
-
         fillData();
         setClearFields(); /*установка самоочищающегос поля*/
         setCountPeopleAndTarifName(); /*усттановка кол-ва пропис. и названия тарифов */
@@ -383,18 +382,35 @@ public class MainController {
         initListeners();
     }
 
+
     //Установка слушателей
     private void initListeners() {
 //        addresBookImpl.getPersonList().addListener((ListChangeListener<Person>) c -> {
 //            updateCountLabel();
 //        });
 
-
         tableAll.setOnMouseClicked(event -> {
+
+            Parent parent = null;
+            DetaliziedController detaliziedController;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+
             if (event.getClickCount() == 2) {
-                createDetaliziedWindow();
+                Pay pay = (Pay) tableAll.getSelectionModel().getSelectedItem();
+                String dateOfPay = pay.getDateOfPay().toString();
+                DetaliziedController.dateOfPay = dateOfPay;
+                try {
+                    fxmlLoader.setLocation(getClass().getResource("../fxml/detalizied.fxml"));
+                    parent = fxmlLoader.load();
+                    detaliziedController = fxmlLoader.getController();
+                    detaliziedController.setListPay(listPay);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                createDetaliziedWindow(parent);
             }
         });
+
         dpStartPayPeriodEl.setOnAction(event -> {
             dpStartPayPeriodWater.setValue(dpStartPayPeriodEl.getValue());
             dpStartPayPeriodHeating.setValue(dpStartPayPeriodEl.getValue());
@@ -403,6 +419,7 @@ public class MainController {
             dpStartPayPeriodGarbage.setValue(dpStartPayPeriodEl.getValue());
             dpStartPayPeriodGas.setValue(dpStartPayPeriodEl.getValue());
         });
+
         dpEndPayPeriodEl.setOnAction(event -> {
             dpEndPayPeriodWater.setValue(dpEndPayPeriodEl.getValue());
             dpEndPayPeriodHeating.setValue(dpEndPayPeriodEl.getValue());
@@ -412,16 +429,16 @@ public class MainController {
             dpEndPayPeriodGas.setValue(dpEndPayPeriodEl.getValue());
         });
 
-//Обработка кнопки "Оплата по квитанции " Газ - tBtnReceipt
+        //Обработка кнопки "Оплата по квитанции " Газ - tBtnReceipt
         tBtnReceipt.setOnAction(event -> {
             actionTBtnReceipt();
         });
 
-//Обработка полей для счетчика Газ
-
+        //Обработка полей для счетчика Газ
         cbGasCounter.setOnAction(event -> {
             actionMetrReadingsGas();
         });
+
 //        Обработка показаний счетчика Газ
         tfNewMetrReadingsGas.setOnAction(event -> {
 //            int toUse = 0;
@@ -432,23 +449,16 @@ public class MainController {
             labelToUseGasMetr.setText("Потребленно " + toUse + " кб.м");
             actionGas();
         });
-
     }
 
-
-    private void createDetaliziedWindow() {
+    //Окно детализации
+    private void createDetaliziedWindow(Parent parent) {
         Stage detalizied = new Stage();
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("../fxml/detalizied.fxml"));
-        } catch (IOException e) {
-//            e.printStackTrace();
-        }
         detalizied.setTitle("Детализация платежа");
         detalizied.setMinHeight(400);
         detalizied.setMinWidth(600);
         detalizied.setResizable(false);
-        detalizied.setScene(new Scene(root));
+        detalizied.setScene(new Scene(parent));
         detalizied.setAlwaysOnTop(true);
         detalizied.initModality(Modality.APPLICATION_MODAL);
         detalizied.showAndWait();
@@ -465,12 +475,10 @@ public class MainController {
         setupClearButtonField(tfReceipt);
         setupClearButtonField(tfOldMetrReadingsGas);
         setupClearButtonField(tfNewMetrReadingsGas);
-
     }
 
     private void setCountPeopleAndTarifName() {
         cbNewTarif.setItems(tarifName);
-
         cbCountPeopleGaz.setItems(countPeople);
         cbCountPeopleGaz.setValue(countPeople.get(1));
 //        cbCountPeopleDwelling.setItems(countPeople);
@@ -523,21 +531,16 @@ public class MainController {
     //Кнопка изменить
     public void actionBtnChange(ActionEvent actionEvent) {
         DBUtils.openConnection();
-
         if (tableTarifs.getSelectionModel().isEmpty()) {
             DialogManager.showErrorDialog("Ошибка!", "Выберите тариф для изменения");
             return;
         }
-
         String name = ((Tarif) tableTarifs.getSelectionModel().getSelectedItem()).getName();
         try {
-
             BigDecimal cost = new BigDecimal(tfNewTarif.getText()).setScale(3, BigDecimal.ROUND_HALF_UP);
             LocalDate dateChangeTarif = dpNewTarif.getValue();
-
             String sqlQuery = "INSERT INTO Tarifs (name_tarif_id, date, price) " +
                     "VALUES ((SELECT id FROM spr_name_tarifs WHERE name=" + "'" + name + "'" + ")," + "'" + dateChangeTarif + "'" + "," + cost + ")";
-
             DBUtils.updateDB(sqlQuery);
             fillData();
         } catch (NumberFormatException | NullPointerException e) {
@@ -549,7 +552,6 @@ public class MainController {
         DBUtils.openConnection();
         tfOldMetrReadingsEl.setText(String.valueOf(DBUtils.getStartMetrReadings("Electric")));
         tfOldMetrReadingsWater.setText(String.valueOf(DBUtils.getStartMetrReadings("Wather")));
-
         listTarif.clear();
         listTarif.add(DBUtils.getResultsListTarif());
         tableTarifs.setItems(listTarif.getTarifsList());
@@ -585,16 +587,12 @@ public class MainController {
         tableHistoryWater.setItems(listWater.getServiceList());
 
         setLabelTarifs();
-
-//        DBUtils.closeConnection();
-
     }
 
     private void setItemsTableAll() {
         listPay.clear();
         listPay.add(DBUtils.getResultsListPay());
         tableAll.setItems(listPay.getPaysList());
-
     }
 
     private void setLabelTarifs() {
@@ -637,9 +635,7 @@ public class MainController {
 
     public void actPayPeriodEl(ActionEvent actionEvent) {
         if (dpEndPayPeriodWater.getValue() == null || dpStartPayPeriodWater.getValue() == null) {
-
         } else {
-
             actionElectric();
         }
     }
@@ -676,7 +672,6 @@ public class MainController {
 
     public void actPayPeriodWater(ActionEvent actionEvent) {
         if (dpEndPayPeriodWater.getValue() == null || dpStartPayPeriodWater.getValue() == null) {
-
         } else {
             actionWater();
         }
@@ -707,7 +702,6 @@ public class MainController {
 
     //    Обработка онажатия энтер - квартира расчет
     public void enterPassedDwelling(KeyEvent event) {
-
         if (event.getCode() == KeyCode.ENTER) {
             actionDwelling();
         }
@@ -736,7 +730,6 @@ public class MainController {
 
     //    Обработка онажатия энтер - газ расчет
     public void enterPassedGas(KeyEvent event) {
-
         if (event.getCode() == KeyCode.ENTER) {
             actionGas();
         }
@@ -764,7 +757,6 @@ public class MainController {
                 sum = new BigDecimal(tfReceipt.getText()).setScale(2, BigDecimal.ROUND_HALF_UP);
             }
             labelSumGas.setText("Сумма к оплате: " + sum + " грн.");
-
         } catch (NumberFormatException e) {
 //            DialogManager.showInfoDialog("Внимание!", "Введите даты периода оплаты");
         }
@@ -796,7 +788,6 @@ public class MainController {
             tfReceipt.setVisible(false);
             cbCountPeopleGaz.setVisible(true);
             labelGas.setText("Прописанно человек в квартире:");
-
             actionGas();
         } else {
             tBtnReceipt.setText("Оплата по Тарифу");
@@ -811,7 +802,6 @@ public class MainController {
 
     //    Обработка онажатия энтер - лифт расчет
     public void enterPassedElevator(KeyEvent event) {
-
         if (event.getCode() == KeyCode.ENTER) {
             actionElevator();
         }
@@ -838,7 +828,6 @@ public class MainController {
 
     //    Обработка онажатия энтер - бытовые отходы расчет
     public void enterPassedGarbage(KeyEvent event) {
-
         if (event.getCode() == KeyCode.ENTER) {
             actionGarbage();
         }
@@ -872,7 +861,6 @@ public class MainController {
 
     public void actPayPeriodHeating(ActionEvent actionEvent) {
         if (dpEndPayPeriodWater.getValue() == null || dpStartPayPeriodWater.getValue() == null) {
-
         } else {
             actionHeating();
         }
@@ -904,12 +892,10 @@ public class MainController {
                     }
                 }
                 Double area = Double.parseDouble(tfHAreaRoom.getText());
-//                System.out.println(area);
                 monthOfHeating.setSum(CalcUtils.calcHeatingSingleMonth(monthOfHeating.getTarif(), area));
             }
             tablePayPerionSumHeating.setItems(tmpHeating);
             labelSumHeating.setText("Сумма к оплате " + CalcUtils.calcHeatingAllMonth(tmpHeating) + " грн.");
-
         } catch (NumberFormatException e) {
             DialogManager.showInfoDialog("Ошибка!", "Не указана площадь квартиры");
             return;
@@ -930,7 +916,6 @@ public class MainController {
             BigDecimal sum = CalcUtils.calcElectric(startDate, endDate, startReadings, endReadings);
             int countMonth = Period.between(startDate, endDate).getMonths() + 1;
             BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
-
             Electric electric = new Electric();
             electric.setDatePay(dateOfPay);
             electric.setPeriod(period);
@@ -938,16 +923,12 @@ public class MainController {
             electric.setToUse(toUse);
             electric.setSum(sum);
             electric.setSumPerMonth(sumPerMonth);
-
             String sqlQuery = "INSERT INTO Electric (date, period, metr_readings, to_use, sum, sum_per_month)" +
                     "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + "," + endReadings + "," + toUse + "," + sum + "," + sumPerMonth + ")";
-
-
             DBUtils.updateDB(sqlQuery);
             listElectric.add(0, electric);
             DBUtils.setSumPay("Electric", dateOfPay, sum, "electric_pay");
             setItemsTableAll();
-
         } catch (NumberFormatException e) {
             DialogManager.showErrorDialog("Ошибка!", "Проверте правильность введения данных!");
             return;
@@ -955,7 +936,6 @@ public class MainController {
     }
 
     public void btnActionWater(ActionEvent actionEvent) {
-
         try {
             LocalDate startDate = dpStartPayPeriodWater.getValue();
             LocalDate endDate = dpEndPayPeriodWater.getValue();
@@ -979,7 +959,6 @@ public class MainController {
             String sqlQuery = "INSERT INTO Wather (date, period, metr_readings, to_use, sum, sum_per_month)" +
                     "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + "," + endReadings + "," + toUse + "," + sum + "," + sumPerMonth + ")";
 
-
             DBUtils.updateDB(sqlQuery);
             listWater.add(0, water);
             DBUtils.setSumPay("Wather", dateOfPay, sum, "wather_pay");
@@ -990,8 +969,8 @@ public class MainController {
             return;
         }
     }
-//    Запись в базу газ
 
+    //    Запись в базу газ
     public void btnActionGas(ActionEvent actionEvent) {
 
         try {
@@ -1005,19 +984,16 @@ public class MainController {
 
             if (cbGasCounter.isSelected()) {
                 sum = CalcUtils.calcGas(startDate, endDate, Integer.valueOf(tfOldMetrReadingsGas.getText()), Integer.valueOf(tfNewMetrReadingsGas.getText()));
-
             } else if (!tBtnReceipt.isSelected()) {
                 Integer countPeople = (Integer) cbCountPeopleGaz.getValue();
                 sum = CalcUtils.calcGas(startDate, endDate, countPeople);
             } else {
                 sum = BigDecimal.valueOf(Double.valueOf(tfReceipt.getText())).setScale(2, BigDecimal.ROUND_HALF_UP);
-
             }
 
             BigDecimal sumPerMonth = sum.divide(new BigDecimal(countMonth), 2, BigDecimal.ROUND_HALF_UP);
             sqlQuery = "INSERT INTO Gas (date, period, sum, sum_per_month)" +
                     "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + "," + sum + "," + sumPerMonth + ")";
-
 
             Gas gas = new Gas();
             gas.setDatePay(dateOfPay);
@@ -1025,12 +1001,10 @@ public class MainController {
             gas.setSum(sum);
             gas.setSumPerMonth(sumPerMonth);
 
-
             DBUtils.updateDB(sqlQuery);
             listGas.add(0, gas);
             DBUtils.setSumPay("Gas", dateOfPay, sum, "gas_pay");
             setItemsTableAll();
-
         } catch (NumberFormatException e) {
             DialogManager.showErrorDialog("Ошибка!", "Проверте правильность введения данных!");
             return;
@@ -1067,11 +1041,9 @@ public class MainController {
             DialogManager.showErrorDialog("Ошибка!", "Проверте правильность введения данных!");
             return;
         }
-
     }
 
     public void btnActionElevator(ActionEvent actionEvent) {
-
         try {
             LocalDate startDate = dpStartPayPeriodElevator.getValue();
             LocalDate endDate = dpEndPayPeriodElevator.getValue();
@@ -1090,12 +1062,10 @@ public class MainController {
             String sqlQuery = "INSERT INTO Elevator (date, period, sum, sum_per_month)" +
                     "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + "," + sum + "," + sumPerMonth + ")";
 
-
             DBUtils.updateDB(sqlQuery);
             listElevator.add(0, elevator);
             DBUtils.setSumPay("Elevator", dateOfPay, sum, "elevator_pay");
             setItemsTableAll();
-
         } catch (NumberFormatException e) {
             DialogManager.showErrorDialog("Ошибка!", "Проверте правильность введения данных!");
             return;
@@ -1121,7 +1091,6 @@ public class MainController {
             garbage.setSumPerMonth(sumPerMonth);
             String sqlQuery = "INSERT INTO Garbage (date, period, sum, sum_per_month)" +
                     "VALUES (" + "'" + dateOfPay + "'" + "," + "'" + period + "'" + "," + sum + "," + sumPerMonth + ")";
-
 
             DBUtils.updateDB(sqlQuery);
             listGarbage.add(0, garbage);
@@ -1170,20 +1139,20 @@ public class MainController {
     //    тест
     public void actionBtnPrint(ActionEvent actionEvent) {
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("DataBase", "*.db"),
-                new FileChooser.ExtensionFilter("All", "*.*")
-        );
-
-
-        fileChooser.setInitialFileName("CommunalDB.db");
-
-
-        File file = fileChooser.showSaveDialog(new Stage());
-
-        System.out.println(file.getAbsolutePath());
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Open Resource File");
+//        fileChooser.getExtensionFilters().addAll(
+//                new FileChooser.ExtensionFilter("DataBase", "*.db"),
+//                new FileChooser.ExtensionFilter("All", "*.*")
+//        );
+//
+//
+//        fileChooser.setInitialFileName("CommunalDB.db");
+//
+//
+//        File file = fileChooser.showSaveDialog(new Stage());
+//
+//        System.out.println(file.getAbsolutePath());
     }
 
 

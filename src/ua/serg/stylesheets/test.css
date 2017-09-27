@@ -1,18 +1,21 @@
 .styleFontLabel18 {
       /*-fx-font-family: 'Book Antiqua';*/
-    -fx-font-family: 'Segoe UI';
+    /*-fx-font-family: 'Segoe UI';*/
+    -fx-font-family: 'Bookman Old Style';
     -fx-font-size: 18px;
 }
 
 .fontLabel14 {
     /*-fx-font-family: 'Book Antiqua';*/
-    -fx-font-family: 'Segoe UI';
-    -fx-font-size: 14px;
+    /*-fx-font-family: 'Segoe UI';*/
+    -fx-font-family: 'Bookman Old Style';
+    -fx-font-size: 13px;
 }
 
 .fontColumnl12 {
     /*-fx-font-family: 'Book Antiqua';*/
-    -fx-font-family: 'Segoe UI';
+    /*-fx-font-family: 'Segoe UI';*/
+    -fx-font-family: 'Bookman Old Style';
     -fx-font-size: 12px;
 }
 
