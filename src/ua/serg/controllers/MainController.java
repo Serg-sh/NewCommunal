@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
@@ -54,7 +55,7 @@ public class MainController {
 
     // Tab Tarifs
     @FXML
-    private CustomTextField tfNewTarif;  /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfNewTarif;  /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private Button btnChangeTarif;
     @FXML
@@ -90,9 +91,9 @@ public class MainController {
 
     //Tab Calc -> tab Electric
     @FXML
-    private CustomTextField tfNewMetrReadingsEl; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfNewMetrReadingsEl; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
-    private CustomTextField tfOldMetrReadingsEl; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfOldMetrReadingsEl; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private DatePicker dpStartPayPeriodEl;
     @FXML
@@ -124,9 +125,9 @@ public class MainController {
 
     // Tab Calc -> tab Water
     @FXML
-    private CustomTextField tfNewMetrReadingsWater; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfNewMetrReadingsWater; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
-    private CustomTextField tfOldMetrReadingsWater; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfOldMetrReadingsWater; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private DatePicker dpStartPayPeriodWater;
     @FXML
@@ -184,13 +185,13 @@ public class MainController {
     @FXML
     private Label labelGas;
     @FXML
-    private CustomTextField tfReceipt; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfReceipt; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private CheckBox cbGasCounter;
     @FXML
-    private CustomTextField tfOldMetrReadingsGas; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfOldMetrReadingsGas; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
-    private CustomTextField tfNewMetrReadingsGas; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfNewMetrReadingsGas; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private Label labelToUseGas;
 
@@ -207,7 +208,7 @@ public class MainController {
     @FXML
     private Label labelSumDwelling;
     @FXML
-    private CustomTextField tfAreaRoom; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfAreaRoom; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private TableView tableHistoryDwelling;
     @FXML
@@ -297,7 +298,7 @@ public class MainController {
     @FXML
     private TableColumn<MonthOfHeating, BigDecimal> hSum;
     @FXML
-    private CustomTextField tfHAreaRoom; /*изменить на NumberTextField в Main.fxml тоже*/
+    private NumberTextField tfHAreaRoom; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
 
 
     private CollectionTarifs listTarif = new CollectionTarifs();
@@ -400,7 +401,7 @@ public class MainController {
                 String dateOfPay = pay.getDateOfPay().toString();
                 DetaliziedController.dateOfPay = dateOfPay;
                 try {
-                    fxmlLoader.setLocation(getClass().getResource("../fxml/detalizied.fxml"));
+                    fxmlLoader.setLocation(getClass().getResource("/ua/serg/fxml/detalizied.fxml"));
                     parent = fxmlLoader.load();
                     detaliziedController = fxmlLoader.getController();
                     detaliziedController.setListPay(listPay);
@@ -421,6 +422,10 @@ public class MainController {
         });
 
         dpEndPayPeriodEl.setOnAction(event -> {
+            if (equalsDate(dpStartPayPeriodEl.getValue(), dpEndPayPeriodEl.getValue())) {
+                dpEndPayPeriodElevator.setValue(LocalDate.now());
+                return;
+            }
             dpEndPayPeriodWater.setValue(dpEndPayPeriodEl.getValue());
             dpEndPayPeriodHeating.setValue(dpEndPayPeriodEl.getValue());
             dpEndPayPeriodDwelling.setValue(dpEndPayPeriodEl.getValue());

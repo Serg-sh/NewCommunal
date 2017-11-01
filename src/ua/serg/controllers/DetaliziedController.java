@@ -67,6 +67,7 @@ public class DetaliziedController {
         ctDetalizationPeriod.setCellValueFactory(new PropertyValueFactory<>("periodOfPay"));
         ctDetalizationSum.setCellValueFactory(new PropertyValueFactory<>("sumOfPay"));
         ctDetalizationSumPerMonth.setCellValueFactory(new PropertyValueFactory<>("sumPerMonth"));
+        detalisationTextArea.setText(DBUtils.getCommentPays(dateOfPay));
 
         fillData();
     }
@@ -79,6 +80,10 @@ public class DetaliziedController {
 
     // закрываем окно
     public void actionBtnClose(ActionEvent actionEvent) {
+        closeWindow(actionEvent);
+    }
+
+    private void closeWindow(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.hide();
@@ -91,5 +96,6 @@ public class DetaliziedController {
         DBUtils.updateDB(sqlQery);
         listPay.clear();
         listPay.add(DBUtils.getResultsListPay()); //Обновление данных в tableAll
+        closeWindow(actionEvent);
     }
 }

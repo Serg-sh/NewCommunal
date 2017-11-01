@@ -23,7 +23,7 @@ public class DBUtils {
         try {
             Driver driver = (Driver) Class.forName("org.sqlite.JDBC").newInstance();
 
-            String url = "jdbc:sqlite:src/ua/serg/db/CommunalDB.db";
+            String url = "jdbc:sqlite:src/ua/serg/db/CommunalDB.db"; //src/ua/serg/db/CommunalDB.db
 
             if (con == null) {
                 con = DriverManager.getConnection(url);
@@ -215,6 +215,28 @@ public class DBUtils {
         }
         closeStatements(statement, rs);
         return startMetrReadings;
+    }
+    public static String getCommentPays(String dateOfPay) {
+        String comment = "";
+        String sqlQuery = "SELECT * FROM ViewPaysWithPeriod WHERE Date = " + "'" + dateOfPay + "'";
+        ObservableList<DetaliziedPay> resList = FXCollections.observableArrayList();
+        Statement statement = null;
+        ResultSet rs = null;
+
+        try {
+            statement = con.createStatement();
+            rs = statement.executeQuery(sqlQuery);
+
+            while (rs.next()) {
+                DetaliziedPay electric = new DetaliziedPay();
+                comment = rs.getString("Comments");
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        closeStatements(statement, rs);
+        return comment;
     }
 
     public static BigDecimal getTarifLastDate(String nameOfTarif) {
