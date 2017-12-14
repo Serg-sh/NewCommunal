@@ -8,6 +8,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -55,7 +59,7 @@ public class MainController {
 
     // Tab Tarifs
     @FXML
-    private NumberTextField tfNewTarif;  /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfNewTarif;  /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private Button btnChangeTarif;
     @FXML
@@ -91,9 +95,9 @@ public class MainController {
 
     //Tab Calc -> tab Electric
     @FXML
-    private NumberTextField tfNewMetrReadingsEl; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfNewMetrReadingsEl; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
-    private NumberTextField tfOldMetrReadingsEl; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfOldMetrReadingsEl; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private DatePicker dpStartPayPeriodEl;
     @FXML
@@ -125,9 +129,9 @@ public class MainController {
 
     // Tab Calc -> tab Water
     @FXML
-    private NumberTextField tfNewMetrReadingsWater; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfNewMetrReadingsWater; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
-    private NumberTextField tfOldMetrReadingsWater; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfOldMetrReadingsWater; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private DatePicker dpStartPayPeriodWater;
     @FXML
@@ -185,13 +189,13 @@ public class MainController {
     @FXML
     private Label labelGas;
     @FXML
-    private NumberTextField tfReceipt; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfReceipt; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private CheckBox cbGasCounter;
     @FXML
-    private NumberTextField tfOldMetrReadingsGas; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfOldMetrReadingsGas; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
-    private NumberTextField tfNewMetrReadingsGas; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfNewMetrReadingsGas; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private Label labelToUseGas;
 
@@ -208,7 +212,7 @@ public class MainController {
     @FXML
     private Label labelSumDwelling;
     @FXML
-    private NumberTextField tfAreaRoom; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfAreaRoom; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
     @FXML
     private TableView tableHistoryDwelling;
     @FXML
@@ -298,7 +302,11 @@ public class MainController {
     @FXML
     private TableColumn<MonthOfHeating, BigDecimal> hSum;
     @FXML
-    private NumberTextField tfHAreaRoom; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    private CustomTextField tfHAreaRoom; /*изменить CustomTextField на NumberTextField в Main.fxml тоже*/
+    @FXML
+    private BarChart<Number, Number> hBarChart;
+    @FXML
+    private LineChart<Number, Number> hLineChart;
 
 
     private CollectionTarifs listTarif = new CollectionTarifs();
@@ -381,6 +389,7 @@ public class MainController {
         setPayPeriodDate();
         setAreaRoom();
         initListeners();
+        setDateChart();
     }
 
 
@@ -1138,6 +1147,27 @@ public class MainController {
             DialogManager.showErrorDialog("Ошибка!", "Проверте правильность введения данных!");
             return;
         }
+    }
+
+    @FXML
+    private NumberAxis hLineX = new NumberAxis();
+    @FXML
+    private NumberAxis hLineY = new NumberAxis();
+
+    public void setDateChart(){
+
+        hLineChart = new LineChart<Number, Number>(hLineX, hLineY);
+        XYChart.Series series = new XYChart.Series();
+        ObservableList<XYChart.Data> datas = FXCollections.observableArrayList();
+        for(int i=0; i<20; i++){
+            datas.add(new XYChart.Data(i+ 2,i + 1));
+
+        }
+        series.setData(datas);
+        hLineChart.getData().add(series);
+
+
+
     }
 
 

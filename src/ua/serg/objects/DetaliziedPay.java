@@ -27,11 +27,17 @@ public class DetaliziedPay {
     }
 
     public void calcSumPerMonth(){
-        String d1 = periodOfPay.substring(0, 10);
-        String d2 = periodOfPay.substring(13, 23);
-        Period p = Period.between(LocalDate.parse(d1), LocalDate.parse(d2));
-        int count = p.getMonths() + 1;
-        sumPerMonth = sumOfPay.divide(new BigDecimal(count), 2, BigDecimal.ROUND_HALF_UP);
+        if (periodOfPay.length() > 10){
+            String d1 = periodOfPay.substring(0, 10);
+            String d2 = periodOfPay.substring(13, 23);
+            Period p = Period.between(LocalDate.parse(d1), LocalDate.parse(d2));
+            int count = p.getMonths() + 1;
+            sumPerMonth = sumOfPay.divide(new BigDecimal(count), 2, BigDecimal.ROUND_HALF_UP);
+        } else {
+            sumPerMonth = BigDecimal.ZERO;
+            this.periodOfPay = "";
+        }
+
     }
 
     public void setNameTarif(String nameTarif) {
